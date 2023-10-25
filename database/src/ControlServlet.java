@@ -124,7 +124,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	String firstName = request.getParameter("firstName");
 	   	 	String lastName = request.getParameter("lastName");
 	   	 	String password = request.getParameter("password");
-	   	 	String birthday = request.getParameter("birthday");
+	   	 	String role = request.getParameter("role");
 	   	 	String adress_street_num = request.getParameter("adress_street_num"); 
 	   	 	String adress_street = request.getParameter("adress_street"); 
 	   	 	String adress_city = request.getParameter("adress_city"); 
