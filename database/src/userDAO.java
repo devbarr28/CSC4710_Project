@@ -101,8 +101,8 @@ public class userDAO
             String adress_city = resultSet.getString("adress_city"); 
             String adress_state = resultSet.getString("adress_state"); 
             String adress_zip_code = resultSet.getString("adress_zip_code"); 
-		String credit_card = resultSet.getString("credit_card");
-		String phone_number = resultSet.getString("phone_number");
+	    String credit_card = resultSet.getString("credit_card");
+	    String phone_number = resultSet.getString("phone_number");
             int cash_bal = resultSet.getInt("cash_bal");
             int PPS_bal = resultSet.getInt("PPS_bal");
 
@@ -134,9 +134,11 @@ public class userDAO
 			preparedStatement.setString(7, users.getAdress_street());		
 			preparedStatement.setString(8, users.getAdress_city());		
 			preparedStatement.setString(9, users.getAdress_state());		
-			preparedStatement.setString(10, users.getAdress_zip_code());		
-			preparedStatement.setInt(11, users.getCash_bal());		
-			preparedStatement.setInt(12, users.getPPS_bal());		
+			preparedStatement.setString(10, users.getAdress_zip_code());
+	    		preparedStatement.setString(11, users.getCredit_card());
+	    		preparedStatement.setString(12, users.getPhone_number());
+			preparedStatement.setInt(13, users.getCash_bal());		
+			preparedStatement.setInt(14, users.getPPS_bal());		
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -168,9 +170,11 @@ public class userDAO
 		preparedStatement.setString(7, users.getAdress_street());		
 		preparedStatement.setString(8, users.getAdress_city());		
 		preparedStatement.setString(9, users.getAdress_state());		
-		preparedStatement.setString(10, users.getAdress_zip_code());		
-		preparedStatement.setInt(11, users.getCash_bal());		
-		preparedStatement.setInt(12, users.getPPS_bal());
+		preparedStatement.setString(10, users.getAdress_zip_code());
+	    	preparedStatement.setString(11, users.getCredit_card());
+	    	preparedStatement.setString(12, users.getPhone_number());
+		preparedStatement.setInt(13, users.getCash_bal());		
+		preparedStatement.setInt(14, users.getPPS_bal());
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
@@ -198,6 +202,8 @@ public class userDAO
             String adress_city = resultSet.getString("adress_city"); 
             String adress_state = resultSet.getString("adress_state"); 
             String adress_zip_code = resultSet.getString("adress_zip_code"); 
+	    String credit_card = resultSet.getString("credit_card");
+	    String phone_number = resultSet.getString("phone_number");
             int cash_bal = resultSet.getInt("cash_bal");
             int PPS_bal = resultSet.getInt("PPS_bal");
             user = new user(email, firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code,cash_bal,PPS_bal);
