@@ -28,9 +28,9 @@
 					</td>
 				</tr>
 				<tr>
-					<th>Birthday: </th>
+					<th>Role: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="birthday" size="45" value="YYYY-MM-DD" onfocus="this.value=''">
+						<input type="text" name="role" size="45" value="role" onfocus="this.value=''">
 					</td>
 	
 				</tr>
