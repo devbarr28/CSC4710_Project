@@ -101,6 +101,8 @@ public class userDAO
             String adress_city = resultSet.getString("adress_city"); 
             String adress_state = resultSet.getString("adress_state"); 
             String adress_zip_code = resultSet.getString("adress_zip_code"); 
+		String credit_card = resultSet.getString("credit_card");
+		String phone_number = resultSet.getString("phone_number");
             int cash_bal = resultSet.getInt("cash_bal");
             int PPS_bal = resultSet.getInt("PPS_bal");
 
