@@ -47,6 +47,10 @@ public class userDAO
             }
             connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john123");
             System.out.println(connect);
+	else
+	{
+		connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=david&password=david123");
+            System.out.println(connect);
         }
     }
     
@@ -91,7 +95,7 @@ public class userDAO
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
-            String birthday = resultSet.getString("birthday");
+            String role = resultSet.getString("role");
             String adress_street_num = resultSet.getString("adress_street_num"); 
             String adress_street = resultSet.getString("adress_street"); 
             String adress_city = resultSet.getString("adress_city"); 
@@ -101,7 +105,7 @@ public class userDAO
             int PPS_bal = resultSet.getInt("PPS_bal");
 
              
-            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, cash_bal,PPS_bal);
+            user users = new user(email,firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, cash_bal,PPS_bal);
             listUser.add(users);
         }        
         resultSet.close();
@@ -117,13 +121,13 @@ public class userDAO
     
     public void insert(user users) throws SQLException {
     	connect_func("root","pass1234");         
-		String sql = "insert into User(email, firstName, lastName, password, birthday,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,cash_bal,PPS_bal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
+		String sql = "insert into User(email, firstName, lastName, password, role,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,cash_bal,PPS_bal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setString(1, users.getEmail());
 			preparedStatement.setString(2, users.getFirstName());
 			preparedStatement.setString(3, users.getLastName());
 			preparedStatement.setString(4, users.getPassword());
-			preparedStatement.setString(5, users.getBirthday());
+			preparedStatement.setString(5, users.getRole());
 			preparedStatement.setString(6, users.getAdress_street_num());		
 			preparedStatement.setString(7, users.getAdress_street());		
 			preparedStatement.setString(8, users.getAdress_city());		
@@ -149,7 +153,7 @@ public class userDAO
     }
      
     public boolean update(user users) throws SQLException {
-        String sql = "update User set firstName=?, lastName =?,password = ?,birthday=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, cash_bal=?, PPS_bal =? where email = ?";
+        String sql = "update User set firstName=?, lastName =?,password = ?,role=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, cash_bal=?, PPS_bal =? where email = ?";
         connect_func();
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
@@ -157,7 +161,7 @@ public class userDAO
 		preparedStatement.setString(2, users.getFirstName());
 		preparedStatement.setString(3, users.getLastName());
 		preparedStatement.setString(4, users.getPassword());
-		preparedStatement.setString(5, users.getBirthday());
+		preparedStatement.setString(5, users.getRole());
 		preparedStatement.setString(6, users.getAdress_street_num());		
 		preparedStatement.setString(7, users.getAdress_street());		
 		preparedStatement.setString(8, users.getAdress_city());		
@@ -186,7 +190,7 @@ public class userDAO
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
-            String birthday = resultSet.getString("birthday");
+            String role = resultSet.getString("role");
             String adress_street_num = resultSet.getString("adress_street_num"); 
             String adress_street = resultSet.getString("adress_street"); 
             String adress_city = resultSet.getString("adress_city"); 
@@ -194,7 +198,7 @@ public class userDAO
             String adress_zip_code = resultSet.getString("adress_zip_code"); 
             int cash_bal = resultSet.getInt("cash_bal");
             int PPS_bal = resultSet.getInt("PPS_bal");
-            user = new user(email, firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code,cash_bal,PPS_bal);
+            user = new user(email, firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code,cash_bal,PPS_bal);
         }
          
         resultSet.close();
@@ -277,7 +281,7 @@ public class userDAO
 					            "firstName VARCHAR(10) NOT NULL, " +
 					            "lastName VARCHAR(10) NOT NULL, " +
 					            "password VARCHAR(20) NOT NULL, " +
-					            "birthday DATE NOT NULL, " +
+					            "role DATE NOT NULL, " +
 					            "adress_street_num VARCHAR(4) , "+ 
 					            "adress_street VARCHAR(30) , "+ 
 					            "adress_city VARCHAR(20)," + 
@@ -287,7 +291,7 @@ public class userDAO
 					            "PPS_bal DECIMAL(13,2) DEFAULT 0,"+
 					            "PRIMARY KEY (email) "+"); ")
         					};
-        String[] TUPLES = {("insert into User(email, firstName, lastName, password, birthday, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, cash_bal, PPS_bal)"+
+        String[] TUPLES = {("insert into User(email, firstName, lastName, password, role, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, cash_bal, PPS_bal)"+
         			"values ('susie@gmail.com', 'Susie ', 'Guzman', 'susie1234', '2000-06-27', '1234', 'whatever street', 'detroit', 'MI', '48202','1000', '0'),"+
 			    		 	"('don@gmail.com', 'Don', 'Cummings','don123', '1969-03-20', '1000', 'hi street', 'mama', 'MO', '12345','1000', '0'),"+
 			    	 	 	"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','1000', '0'),"+
