@@ -29,7 +29,7 @@
                 <th>Password</th>
                 <th>Role</th>
 		<th>Credit card</th>
-		<th>Phone Number</th>
+		<th>Phone number</th>
                 <th>cash_bal($)</th>
                 <th>PPS_bal</th>
             </tr>
