@@ -16,7 +16,7 @@ David Smith's Tree Cutting bussiness is a web project that integrates Eclipse, A
 
 ## Getting Started
 
-The get a copy of this project up and running on your machine, use the following steps: 
+In order to get a copy of this project running on your machine, use the following steps: 
 
 ### Prerequisites
 
