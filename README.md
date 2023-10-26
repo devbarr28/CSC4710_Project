@@ -32,7 +32,9 @@ Download the Eclipse IDE for Java and Web developers from the official site.
 -MySQL Workbench: Install MySQL workench and set a local host for your project to run on. 
 
 -Set up your environment variables: 
+
   JAVA_HOME: point this to your Java instalation path.
+  
   CATALINA_HOME: point this to your Apache Tomcat directory path.
 
 ### Project Setup
