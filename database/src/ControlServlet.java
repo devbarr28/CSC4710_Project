@@ -33,7 +33,6 @@ public class ControlServlet extends HttpServlet {
 	    
 	    public void init()
 	    {
-	    	userDAO = new userDAO();
 	    	currentUser= "";
 	    }
 	    
@@ -54,9 +53,8 @@ public class ControlServlet extends HttpServlet {
         		register(request, response);
         		break;
         	case "/initialize":
-        		userDAO.init();
+        		Initialize(request, response);
         		System.out.println("Database successfully initialized!");
-        		rootPage(request,response,"");
         		break;
         	case "/root":
         		rootPage(request,response, "");
@@ -96,14 +94,15 @@ public class ControlServlet extends HttpServlet {
 	    
 	    
 	    protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	 String email = request.getParameter("email");
+	    	 String username = request.getParameter("username");
 	    	 String password = request.getParameter("password");
 	    	 
 	    	 if (email.equals("root") && password.equals("pass1234")) {
 				 System.out.println("Login Successful! Redirecting to root");
 				 session = request.getSession();
-				 session.setAttribute("username", email);
+				 session.setAttribute("username", username);
 				 rootPage(request, response, "");
+			 	 request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	    	 }
 	    	 else if(userDAO.isValid(email, password)) 
 	    	 {
@@ -118,24 +117,23 @@ public class ControlServlet extends HttpServlet {
 	    		 request.getRequestDispatcher("login.jsp").forward(request, response);
 	    	 }
 	    }
+	    private void Initialize(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		    intialize.initializeDatabase();
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		    dispatcher.forward(request, response);
+
+	    }
 	           
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	String email = request.getParameter("email");
-	   	 	String firstName = request.getParameter("firstName");
-	   	 	String lastName = request.getParameter("lastName");
+	    		String username = request.getParameter("username");
 	   	 	String password = request.getParameter("password");
-	   	 	String role = request.getParameter("role");
-	   	 	String adress_street_num = request.getParameter("adress_street_num"); 
-	   	 	String adress_street = request.getParameter("adress_street"); 
-	   	 	String adress_city = request.getParameter("adress_city"); 
-	   	 	String adress_state = request.getParameter("adress_state"); 
-	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 	   	 	
+	   	 	String role = request.getParameter("role");	   	 	
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkEmail(email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(email,firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, 1000,0);
+		            user users = new user(username, password, role);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
