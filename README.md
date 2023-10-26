@@ -42,7 +42,7 @@ Download the Eclipse IDE for Java and Web developers from the official site.
 
 -Open Eclispe and configure your project facets and server to match your Apache Tomcat and Java JDK that were installed prior.
 
--Import your repository and make sure all files are configured
+-Import your repository and make sure all files are configured correctly.
 
 ## Usage
 
@@ -56,7 +56,7 @@ Download the Eclipse IDE for Java and Web developers from the official site.
   
   Devin:
   
-    - Created ER Diagram 
+    - Created ER Diagram
     
     - Defined the table structure
     
