@@ -48,18 +48,14 @@ public class userDAO
             connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john123");
             System.out.println(connect);
         }
-        else {
-        	connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=david&password=david123");
-        	System.out.println(connect);
-        }
     }
     
     public boolean database_login(String email, String password) throws SQLException{
     	try {
     		connect_func("root","pass1234");
-    		String sql = "select * from user where email = ?";
+    		String sql = "select * from User where username = ?";
     		preparedStatement = connect.prepareStatement(sql);
-    		preparedStatement.setString(1, email);
+    		preparedStatement.setString(1, username);
     		ResultSet rs = preparedStatement.executeQuery();
     		return rs.next();
     	}
@@ -91,23 +87,11 @@ public class userDAO
         ResultSet resultSet = statement.executeQuery(sql);
          
         while (resultSet.next()) {
-            String email = resultSet.getString("email");
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
+            String username = resultSet.getString("username");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
-            String adress_street_num = resultSet.getString("adress_street_num"); 
-            String adress_street = resultSet.getString("adress_street"); 
-            String adress_city = resultSet.getString("adress_city"); 
-            String adress_state = resultSet.getString("adress_state"); 
-            String adress_zip_code = resultSet.getString("adress_zip_code"); 
-	    String credit_card = resultSet.getString("credit_card");
-	    String phone_number = resultSet.getString("phone_number");
-            int cash_bal = resultSet.getInt("cash_bal");
-            int PPS_bal = resultSet.getInt("PPS_bal");
-
              
-            user users = new user(email,firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, cash_bal,PPS_bal);
+            user users = new user(username, password, role);
             listUser.add(users);
         }        
         resultSet.close();
@@ -123,33 +107,23 @@ public class userDAO
     
     public void insert(user users) throws SQLException {
     	connect_func("root","pass1234");         
-		String sql = "insert into User(email, firstName, lastName, password, role,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,cash_bal,PPS_bal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
+		String sql = "insert into User(username, password, role) values (?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-			preparedStatement.setString(1, users.getEmail());
-			preparedStatement.setString(2, users.getFirstName());
-			preparedStatement.setString(3, users.getLastName());
-			preparedStatement.setString(4, users.getPassword());
-			preparedStatement.setString(5, users.getRole());
-			preparedStatement.setString(6, users.getAdress_street_num());		
-			preparedStatement.setString(7, users.getAdress_street());		
-			preparedStatement.setString(8, users.getAdress_city());		
-			preparedStatement.setString(9, users.getAdress_state());		
-			preparedStatement.setString(10, users.getAdress_zip_code());
-	    		preparedStatement.setString(11, users.getCredit_card());
-	    		preparedStatement.setString(12, users.getPhone_number());
-			preparedStatement.setInt(13, users.getCash_bal());		
-			preparedStatement.setInt(14, users.getPPS_bal());		
+			preparedStatement.setString(1, users.getUsername());
+			preparedStatement.setString(2, users.getPassword());
+			preparedStatement.setString(3, users.getRole());
+		
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
     }
     
-    public boolean delete(String email) throws SQLException {
-        String sql = "DELETE FROM User WHERE email = ?";        
+    public boolean delete(String username) throws SQLException {
+        String sql = "DELETE FROM User WHERE username = ?";        
         connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
+        preparedStatement.setString(1, username);
          
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
@@ -157,56 +131,34 @@ public class userDAO
     }
      
     public boolean update(user users) throws SQLException {
-        String sql = "update User set firstName=?, lastName =?,password = ?,role=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, cash_bal=?, PPS_bal =? where email = ?";
+        String sql = "update User set password = ?, role = ?, where email = ?";
         connect_func();
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, users.getEmail());
-		preparedStatement.setString(2, users.getFirstName());
-		preparedStatement.setString(3, users.getLastName());
-		preparedStatement.setString(4, users.getPassword());
-		preparedStatement.setString(5, users.getRole());
-		preparedStatement.setString(6, users.getAdress_street_num());		
-		preparedStatement.setString(7, users.getAdress_street());		
-		preparedStatement.setString(8, users.getAdress_city());		
-		preparedStatement.setString(9, users.getAdress_state());		
-		preparedStatement.setString(10, users.getAdress_zip_code());
-	    	preparedStatement.setString(11, users.getCredit_card());
-	    	preparedStatement.setString(12, users.getPhone_number());
-		preparedStatement.setInt(13, users.getCash_bal());		
-		preparedStatement.setInt(14, users.getPPS_bal());
+        	preparedStatement.setString(1, users.getUsername());
+		preparedStatement.setString(2, users.getPassword());
+		preparedStatement.setString(3, users.getRole());
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
         return rowUpdated;     
     }
     
-    public user getUser(String email) throws SQLException {
+    public user getUser(String username) throws SQLException {
     	user user = null;
-        String sql = "SELECT * FROM User WHERE email = ?";
+        String sql = "SELECT * FROM User WHERE username = ?";
          
         connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
+        preparedStatement.setString(1, username);
          
         ResultSet resultSet = preparedStatement.executeQuery();
          
         if (resultSet.next()) {
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
-            String adress_street_num = resultSet.getString("adress_street_num"); 
-            String adress_street = resultSet.getString("adress_street"); 
-            String adress_city = resultSet.getString("adress_city"); 
-            String adress_state = resultSet.getString("adress_state"); 
-            String adress_zip_code = resultSet.getString("adress_zip_code"); 
-	    String credit_card = resultSet.getString("credit_card");
-	    String phone_number = resultSet.getString("phone_number");
-            int cash_bal = resultSet.getInt("cash_bal");
-            int PPS_bal = resultSet.getInt("PPS_bal");
-            user = new user(email, firstName, lastName, password, role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code,cash_bal,PPS_bal);
+            user = new user(username, password, role);
         }
          
         resultSet.close();
@@ -215,12 +167,12 @@ public class userDAO
         return user;
     }
     
-    public boolean checkEmail(String email) throws SQLException {
+    public boolean checkUsername(String username) throws SQLException {
     	boolean checks = false;
-    	String sql = "SELECT * FROM User WHERE email = ?";
+    	String sql = "SELECT * FROM User WHERE username = ?";
     	connect_func();
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
+        preparedStatement.setString(1, username);
         ResultSet resultSet = preparedStatement.executeQuery();
         
         System.out.println(checks);	
@@ -253,7 +205,7 @@ public class userDAO
     
     
     
-    public boolean isValid(String email, String password) throws SQLException
+    public boolean isValid(String username, String password) throws SQLException
     {
     	String sql = "SELECT * FROM User";
     	connect_func();
@@ -268,7 +220,7 @@ public class userDAO
     	for(int i = 0; i < setSize; i++)
     	{
     		resultSet.next();
-    		if(resultSet.getString("email").equals(email) && resultSet.getString("password").equals(password)) {
+    		if(resultSet.getString("username").equals(username) && resultSet.getString("password").equals(password)) {
     			return true;
     		}		
     	}
@@ -285,34 +237,13 @@ public class userDAO
 					        "use testdb; ",
 					        "drop table if exists User; ",
 					        ("CREATE TABLE if not exists User( " +
-					            "email VARCHAR(50) NOT NULL, " + 
-					            "firstName VARCHAR(10) NOT NULL, " +
-					            "lastName VARCHAR(10) NOT NULL, " +
+					            "username VARCHAR(50) UNIQUE PRIMARY KEY, " + 
 					            "password VARCHAR(20) NOT NULL, " +
-					            "role VARCHAR(15) NOT NULL, " +
-					            "adress_street_num VARCHAR(4) , "+ 
-					            "adress_street VARCHAR(30) , "+ 
-					            "adress_city VARCHAR(20)," + 
-					            "adress_state VARCHAR(2),"+ 
-					            "adress_zip_code VARCHAR(5),"+
-						 "credit_card VARCHAR(16),"+
-						 "phone_number VARCHAR(10),"+
-					            "cash_bal DECIMAL(13,2) DEFAULT 1000,"+ 
-					            "PPS_bal DECIMAL(13,2) DEFAULT 0,"+
-					            "PRIMARY KEY (email) "+"); ")
+					            "role VARCHAR(15) NOT NULL, ")
         					};
-        String[] TUPLES = {("insert into User(email, firstName, lastName, password, role, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, credit_card, phone_number, cash_bal, PPS_bal)"+
-        			"values ('susie@gmail.com', 'Susie ', 'Guzman', 'susie1234', 'Client', '1234', 'whatever street', 'detroit', 'MI', '48202','3856283947362849', '3131234567', '1000', '0'),"+
-			    		 	"('don@gmail.com', 'Don', 'Cummings', 'don123', 'Client', '1000', 'hi street', 'mama', 'MO', '12345','2847584635409876', '2489763462', '1000', '0'),"+
-			    	 	 	"('margarita@gmail.com', 'Margarita', 'Lawson', 'margarita1234', 'Client', '1234', 'ivan street', 'tata', 'CO', '12561','2546375926354735', '3132648734', '1000', '0'),"+
-			    		 	"('jo@gmail.com', 'Jo', 'Brady', 'jo1234', 'Client', '3214','marko street', 'brat', 'DU', '54321', '5768496758462534', '3137583648', '1000', '0'),"+
-			    		 	"('wallace@gmail.com', 'Wallace', 'Moore', 'wallace1234', 'Client', '4500', 'frey street', 'sestra', 'MI', '48202', '5978673625306958', '2028374836', '1000', '0'),"+
-			    		 	"('amelia@gmail.com', 'Amelia', 'Phillips', 'amelia1234', 'Client', '1245', 'm8s street', 'baka', 'IL', '48000', '4627493856123098', '2487253609', '1000', '0'),"+
-			    			"('sophie@gmail.com', 'Sophie', 'Pierce', 'sophie1234', 'Client', '2468', 'yolos street', 'ides', 'CM', '24680', '5647382947263960', '3138472937', '1000', '0'),"+
-			    			"('angelo@gmail.com', 'Angelo', 'Francis','angelo1234', 'Client', '4680', 'egypt street', 'lolas', 'DT', '13579', '6758203948123674', '3132794735', '1000', '0'),"+
-			    			"('rudy@gmail.com', 'Rudy', 'Smith', 'rudy1234', 'Client', '1234', 'sign street', 'samo ne tu', 'MH', '09876', '8573649234509874', '2489723409', '1000', '0'),"+
-			    			"('jeannette@gmail.com', 'Jeannette ', 'Stone', 'jeannette1234', 'Client', '0981', 'snoop street', 'kojik', 'HW', '87654', '1237654378957463', '3132974527', '1000', '0'),"+
-			    			"('root', 'default', 'default','pass1234', 'Client', '0000', 'Default', 'Default', '0', '00000', '0000000000000000', '0000000000', '1000', '1000000000');")
+        String[] TUPLES = {("insert into User(username, password, role)"+
+        			"values ('devin','devin123', 'Client'),"+
+			    			"('root','pass123','Admin');")
 			    			};
         
         //for loop to put these in database
