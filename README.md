@@ -21,7 +21,8 @@ The get a copy of this project up and running on your machine, use the following
 ### Prerequisites
 
 Before using this project you will have to install the following:
--Java Development Kit(JDK): Install the Java JDK that you plan on using in your Eclipse Project
+
+-Java Development Kit(JDK): Install the Java JDK that you plan on using in your Eclipse Project. (Java JDK-20 or Java JDK-17)
 
 -Eclispe for Java and Web Developers: 
 Download the Eclipse IDE for Java and Web developers from the official site.
