@@ -47,10 +47,10 @@ public class userDAO
             }
             connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john123");
             System.out.println(connect);
-	else
-	{
-		connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=david&password=david123");
-            System.out.println(connect);
+        }
+        else {
+        	connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=david&password=david123");
+        	System.out.println(connect);
         }
     }
     

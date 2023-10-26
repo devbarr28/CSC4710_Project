@@ -16,7 +16,7 @@ public class user
 	    protected int PPS_bal;
 	 
 	    //constructors
-	    public user() {
+	    public user(String email2, String firstName2, String lastName2, String password2, String role2, String adress_street_num2, String adress_street2, String adress_city2, String adress_state2, String adress_zip_code2, int cash_bal2, int pPS_bal2) {
 	    }
 	 
 	    public user(String email) 
@@ -24,7 +24,7 @@ public class user
 	        this.email = email;
 	    }
 	    
-	    public user(String email,String firstName, String lastName, String password,String role, String adress_street_num, String adress_street, String adress_city, String adress_state,String adress_zip_code, String credit_card, String phone_number, String int cash_bal, int PPS_bal) 
+	    public user(String email,String firstName, String lastName, String password,String role, String adress_street_num, String adress_street, String adress_city, String adress_state,String adress_zip_code, String credit_card, String phone_number, int cash_bal, int PPS_bal) 
 	    {
 	    	this(firstName,lastName,password,role, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit_card, phone_number, cash_bal,PPS_bal);
 	    	this.email = email;
@@ -115,21 +115,21 @@ public class user
 	        this.adress_zip_code = adress_zip_code;
 	    }
 
-	public void String getCredit_card() {
+	    public String getCredit_card() {
 	        return credit_card;
-	}
+	    }
 
-	public void setCredit_card(String credit_card) {
-		this.credit_card = credit_card;
-	}
+	    public void setCredit_card(String credit_card) {
+	    	this.credit_card = credit_card;
+	    }
 
-	public void String getPhone_number() {
-        	return phone_number;
-	}
+	    public String getPhone_number() {
+	    	return phone_number;
+	    }
 
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
-	}
+	    public void setPhone_number(String phone_number) {
+	    	this.phone_number = phone_number;
+	    }
 	
 	    public int getCash_bal() {
 	    	return cash_bal;

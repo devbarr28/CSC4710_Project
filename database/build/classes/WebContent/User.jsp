@@ -21,7 +21,9 @@
                 <th>Last name</th>
                 <th>Address</th>
                 <th>Password</th>
-                <th>Birthday</th>
+                <th>Role</th>
+		<th>Credit Card Number</th>
+		<th>Phone Number</th>
                 <th>cash_bal($)</th>
                 <th>PPS_bal</th>
             </tr>
@@ -32,7 +34,9 @@
                     <td>"${user.lastName}"</td>
                     <td>"${user.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}"</td>
                     <td>"${user.password}"</td>
-                    <td>"${user.birthday}"</td>
+                    <td>"${user.role}"</td>
+		<td>"${user.credit_card}"</td>
+		<td>"${user.phone_number}"</td>
                     <td>"${user.cash_bal}"</td>
                     <td>"${user.PPS_bal}"</td>
                  </tr>
