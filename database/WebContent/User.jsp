@@ -16,7 +16,7 @@
         <table border="1" cellpadding="6">
             <caption><h2>List of Users</h2></caption>
             <tr>
-                <th>email</th>
+                <th>username</th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Address</th>
@@ -29,7 +29,7 @@
             </tr>
             <c:forEach var="user" items="${get_user}">
                 <tr style="text-align:center">
-                    <td>"${user.email}" </td>
+                    <td>"${user.username}" </td>
                     <td>"${user.firstName}"</td>
                     <td>"${user.lastName}"</td>
                     <td>"${user.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}"</td>
