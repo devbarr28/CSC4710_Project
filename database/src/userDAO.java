@@ -50,9 +50,9 @@ public class userDAO
         }
     }
     
-    public boolean database_login(String email, String password) throws SQLException{
+    public boolean database_login(String username, String password) throws SQLException{
     	try {
-    		connect_func("root","pass1234");
+    		connect_func("root","abc123");
     		String sql = "select * from User where username = ?";
     		preparedStatement = connect.prepareStatement(sql);
     		preparedStatement.setString(1, username);
@@ -239,13 +239,23 @@ public class userDAO
 					        ("CREATE TABLE if not exists User( " +
 					            "username VARCHAR(50) UNIQUE PRIMARY KEY, " + 
 					            "password VARCHAR(20) NOT NULL, " +
-					            "role VARCHAR(15) NOT NULL, ")
+					            "role VARCHAR(15) NOT NULL ")
         					};
-        String[] TUPLES = {("insert into User(username, password, role)"+
-        			"values ('devin','devin123', 'Client'),"+
-			    			"('root','pass123','Admin');")
-			    			};
-        
+        String[] TUPLES = {
+        	    "insert into User(username, role, password) " +
+        	    "values ('susie@gmail.com', 'Client', 'susie1234'), " +
+        	    "('don@gmail.com', 'Client', 'don123'), " +
+        	    "('margarita@gmail.com', 'Client', 'margarita1234'), " +
+        	    "('jo@gmail.com', 'Client', 'jo1234'), " +
+        	    "('wallace@gmail.com', 'Client', 'wallace1234'), " +
+        	    "('amelia@gmail.com', 'Client', 'amelia1234'), " +
+        	    "('sophie@gmail.com', 'Client', 'sophie1234'), " +
+        	    "('angelo@gmail.com', 'Client', 'angelo1234'), " +
+        	    "('rudy@gmail.com', 'Client', 'rudy1234'), " +
+        	    "('jeannette@gmail.com', 'Client', 'jeannette1234'), " +
+        	    "('root', 'default', 'pass1234');"
+        	};
+  
         //for loop to put these in database
         for (int i = 0; i < INITIAL.length; i++)
         	statement.execute(INITIAL[i]);

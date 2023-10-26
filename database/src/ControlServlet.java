@@ -19,7 +19,6 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 
-
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private userDAO userDAO = new userDAO();
@@ -53,8 +52,9 @@ public class ControlServlet extends HttpServlet {
         		register(request, response);
         		break;
         	case "/initialize":
-        		Initialize(request, response);
+        		userDAO.init();
         		System.out.println("Database successfully initialized!");
+        		rootPage(request,response,"");
         		break;
         	case "/root":
         		rootPage(request,response, "");
@@ -94,35 +94,29 @@ public class ControlServlet extends HttpServlet {
 	    
 	    
 	    protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	 String username = request.getParameter("username");
-	    	 String password = request.getParameter("password");
-	    	 
-	    	 if (email.equals("root") && password.equals("pass1234")) {
-				 System.out.println("Login Successful! Redirecting to root");
-				 session = request.getSession();
-				 session.setAttribute("username", username);
-				 rootPage(request, response, "");
-			 	 request.getRequestDispatcher("rootView.jsp").forward(request, response);
-	    	 }
-	    	 else if(userDAO.isValid(email, password)) 
-	    	 {
-			 	 
-			 	 currentUser = email;
-				 System.out.println("Login Successful! Redirecting");
-				 request.getRequestDispatcher("activitypage.jsp").forward(request, response);
-			 			 			 			 
-	    	 }
-	    	 else {
-	    		 request.setAttribute("loginStr","Login Failed: Please check your credentials.");
-	    		 request.getRequestDispatcher("login.jsp").forward(request, response);
-	    	 }
-	    }
-	    private void Initialize(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		    intialize.initializeDatabase();
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		    dispatcher.forward(request, response);
+	        String username = request.getParameter("username");
+	        String password = request.getParameter("password");
 
+	        if (username.equals("root") && password.equals("pass1234")) {
+	            System.out.println("Login Successful! Redirecting to root");
+	            session = request.getSession();
+	            session.setAttribute("username", username);
+	            request.getRequestDispatcher("rootView.jsp").forward(request, response);
+	        } else if (username.equals("david") && password.equals("david123")) {
+	            System.out.println("Login Successful! Redirecting to David's page");
+	            session = request.getSession();
+	            session.setAttribute("username", username);
+	            request.getRequestDispatcher("davidView.jsp").forward(request, response); 
+	        } else if (userDAO.isValid(username, password)) {
+	            currentUser = username;
+	            System.out.println("Login Successful! Redirecting to client view");
+	            request.getRequestDispatcher("clientView.jsp").forward(request, response);
+	        } else {
+	            request.setAttribute("loginStr", "Login Failed: Please check your credentials.");
+	            request.getRequestDispatcher("login.jsp").forward(request, response);
+	        }
 	    }
+
 	           
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    		String username = request.getParameter("username");
@@ -131,7 +125,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (password.equals(confirm)) {
-	   	 		if (!userDAO.checkEmail(email)) {
+	   	 		if (!userDAO.checkUsername(username)) {
 		   	 		System.out.println("Registration Successful! Added to database");
 		            user users = new user(username, password, role);
 		   	 		userDAO.insert(users);

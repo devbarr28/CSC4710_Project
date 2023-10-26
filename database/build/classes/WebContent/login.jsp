@@ -13,9 +13,9 @@
 		<form action="login" method="post">
 			<table border="1" cellpadding="5">
 				<tr>
-					<th>Username: </th>
+					<th>User name: </th>
 					<td>
-						<input type="text" name="email" size="45" autofocus>
+						<input type="text" name="username" size="45" autofocus>
 					</td>
 				</tr>
 				<tr>
