@@ -22,9 +22,12 @@ The get a copy of this project up and running on your machine, use the following
 
 Before using this project you will have to install the following:
 -Java Development Kit(JDK): Install the Java JDK that you plan on using in your Eclipse Project
+
 -Eclispe for Java and Web Developers: 
 Download the Eclipse IDE for Java and Web developers from the official site.
+
 -Apache Tomcat Server: Download Apache Tomcat server to run your project in Eclipse. You must configure the server in Eclipse.
+
 -MySQL Workbench: Install MySQL workench and set a local host for your project to run on. 
 
 -Set up your environment variables: 
