@@ -39,22 +39,32 @@ Download the Eclipse IDE for Java and Web developers from the official site.
 
 ### Project Setup
 -Place all project files into your eclispe-workspace folder. This includes any database files. 
+
 -Open Eclispe and configure your project facets and server to match your Apache Tomcat and Java JDK that were installed prior.
+
 -Import your repository and make sure all files are configured
 
 ## Usage
 
 -Navigate to the .jsp file you want to run in your eclispe project.
+
 -Right click and select run on server. This will deploy your file to the Tomcat server and open it on your web browser.
 
 ## Contributions
   Total Hours: 6-7
+  
   Devin:
+  
     - Created ER Diagram 
+    
     - Defined the table structure
+    
     - Helped with coding in GitHub Repository
     
   Nabaha: 
+  
     - Contributed to the development of the table structures
+    
     - Assisted in the creating the neccessary Github files
+    
     - Configured and ran the project on Eclipse 
