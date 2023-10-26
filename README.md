@@ -58,7 +58,7 @@ Download the Eclipse IDE for Java and Web developers from the official site.
   
     - Created ER Diagram
     
-    - Defined the table structure
+    - Defined the table structures
     
     - Helped with coding in GitHub Repository
     
