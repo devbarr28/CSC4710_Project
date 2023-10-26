@@ -289,28 +289,30 @@ public class userDAO
 					            "firstName VARCHAR(10) NOT NULL, " +
 					            "lastName VARCHAR(10) NOT NULL, " +
 					            "password VARCHAR(20) NOT NULL, " +
-					            "role DATE NOT NULL, " +
+					            "role VARCHAR(15) NOT NULL, " +
 					            "adress_street_num VARCHAR(4) , "+ 
 					            "adress_street VARCHAR(30) , "+ 
 					            "adress_city VARCHAR(20)," + 
 					            "adress_state VARCHAR(2),"+ 
-					            "adress_zip_code VARCHAR(5),"+ 
+					            "adress_zip_code VARCHAR(5),"+
+						 "credit_card VARCHAR(16),"+
+						 "phone_number VARCHAR(10),"+
 					            "cash_bal DECIMAL(13,2) DEFAULT 1000,"+ 
 					            "PPS_bal DECIMAL(13,2) DEFAULT 0,"+
 					            "PRIMARY KEY (email) "+"); ")
         					};
-        String[] TUPLES = {("insert into User(email, firstName, lastName, password, role, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, cash_bal, PPS_bal)"+
-        			"values ('susie@gmail.com', 'Susie ', 'Guzman', 'susie1234', '2000-06-27', '1234', 'whatever street', 'detroit', 'MI', '48202','1000', '0'),"+
-			    		 	"('don@gmail.com', 'Don', 'Cummings','don123', '1969-03-20', '1000', 'hi street', 'mama', 'MO', '12345','1000', '0'),"+
-			    	 	 	"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','1000', '0'),"+
-			    		 	"('jo@gmail.com', 'Jo', 'Brady','jo1234', '2002-02-02', '3214','marko street', 'brat', 'DU', '54321','1000', '0'),"+
-			    		 	"('wallace@gmail.com', 'Wallace', 'Moore','wallace1234', '1971-06-15', '4500', 'frey street', 'sestra', 'MI', '48202','1000', '0'),"+
-			    		 	"('amelia@gmail.com', 'Amelia', 'Phillips','amelia1234', '2000-03-14', '1245', 'm8s street', 'baka', 'IL', '48000','1000', '0'),"+
-			    			"('sophie@gmail.com', 'Sophie', 'Pierce','sophie1234', '1999-06-15', '2468', 'yolos street', 'ides', 'CM', '24680','1000', '0'),"+
-			    			"('angelo@gmail.com', 'Angelo', 'Francis','angelo1234', '2021-06-14', '4680', 'egypt street', 'lolas', 'DT', '13579','1000', '0'),"+
-			    			"('rudy@gmail.com', 'Rudy', 'Smith','rudy1234', '1706-06-05', '1234', 'sign street', 'samo ne tu','MH', '09876','1000', '0'),"+
-			    			"('jeannette@gmail.com', 'Jeannette ', 'Stone','jeannette1234', '2001-04-24', '0981', 'snoop street', 'kojik', 'HW', '87654','1000', '0'),"+
-			    			"('root', 'default', 'default','pass1234', '1867-02-23', '0000', 'Default', 'Default', '0', '00000','1000','1000000000');")
+        String[] TUPLES = {("insert into User(email, firstName, lastName, password, role, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, credit_card, phone_number, cash_bal, PPS_bal)"+
+        			"values ('susie@gmail.com', 'Susie ', 'Guzman', 'susie1234', 'Client', '1234', 'whatever street', 'detroit', 'MI', '48202','3856283947362849', '3131234567', '1000', '0'),"+
+			    		 	"('don@gmail.com', 'Don', 'Cummings', 'don123', 'Client', '1000', 'hi street', 'mama', 'MO', '12345','2847584635409876', '2489763462', '1000', '0'),"+
+			    	 	 	"('margarita@gmail.com', 'Margarita', 'Lawson', 'margarita1234', 'Client', '1234', 'ivan street', 'tata', 'CO', '12561','2546375926354735', '3132648734', '1000', '0'),"+
+			    		 	"('jo@gmail.com', 'Jo', 'Brady', 'jo1234', 'Client', '3214','marko street', 'brat', 'DU', '54321', '5768496758462534', '3137583648', '1000', '0'),"+
+			    		 	"('wallace@gmail.com', 'Wallace', 'Moore', 'wallace1234', 'Client', '4500', 'frey street', 'sestra', 'MI', '48202', '5978673625306958', '2028374836', '1000', '0'),"+
+			    		 	"('amelia@gmail.com', 'Amelia', 'Phillips', 'amelia1234', 'Client', '1245', 'm8s street', 'baka', 'IL', '48000', '4627493856123098', '2487253609', '1000', '0'),"+
+			    			"('sophie@gmail.com', 'Sophie', 'Pierce', 'sophie1234', 'Client', '2468', 'yolos street', 'ides', 'CM', '24680', '5647382947263960', '3138472937', '1000', '0'),"+
+			    			"('angelo@gmail.com', 'Angelo', 'Francis','angelo1234', 'Client', '4680', 'egypt street', 'lolas', 'DT', '13579', '6758203948123674', '3132794735', '1000', '0'),"+
+			    			"('rudy@gmail.com', 'Rudy', 'Smith', 'rudy1234', 'Client', '1234', 'sign street', 'samo ne tu', 'MH', '09876', '8573649234509874', '2489723409', '1000', '0'),"+
+			    			"('jeannette@gmail.com', 'Jeannette ', 'Stone', 'jeannette1234', 'Client', '0981', 'snoop street', 'kojik', 'HW', '87654', '1237654378957463', '3132974527', '1000', '0'),"+
+			    			"('root', 'default', 'default','pass1234', 'Client', '0000', 'Default', 'Default', '0', '00000', '0000000000000000', '0000000000', '1000', '1000000000');")
 			    			};
         
         //for loop to put these in database
