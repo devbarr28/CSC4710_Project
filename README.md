@@ -48,7 +48,8 @@ Download the Eclipse IDE for Java and Web developers from the official site.
 
 -Navigate to the .jsp file you want to run in your eclispe project.
 
--Right click and select run on server. This will deploy your file to the Tomcat server and open it on your web browser.
+-Right click and select run on server. This will deploy your file to the     
+  Tomcat server and open it on your web browser.
 
 ## Contributions
   Total Hours: 6-7
