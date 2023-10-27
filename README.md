@@ -52,7 +52,7 @@ Download the Eclipse IDE for Java and Web developers from the official site.
   Tomcat server and open it on your web browser.
 
 ## Contributions
-  Total Hours: 6-7
+  Total Hours: 8-9
   
   Devin:
   
