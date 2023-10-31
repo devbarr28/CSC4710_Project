@@ -135,7 +135,7 @@ public class userDAO
         connect_func();
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        	preparedStatement.setString(1, users.getUsername());
+        preparedStatement.setString(1, users.getUsername());
 		preparedStatement.setString(2, users.getPassword());
 		preparedStatement.setString(3, users.getRole());
          
@@ -231,7 +231,9 @@ public class userDAO
     public void init() throws SQLException, FileNotFoundException, IOException{
     	connect_func();
         statement =  (Statement) connect.createStatement();
+     
         
+       
         String[] INITIAL = {"drop database if exists testdb; ",
 					        "create database testdb; ",
 					        "use testdb; ",
@@ -239,8 +241,9 @@ public class userDAO
 					        ("CREATE TABLE if not exists User( " +
 					            "username VARCHAR(50) UNIQUE PRIMARY KEY, " + 
 					            "password VARCHAR(20) NOT NULL, " +
-					            "role VARCHAR(15) NOT NULL ")
+					            "role VARCHAR(15) NOT NULL) ")
         					};
+        					
         String[] TUPLES = {
         	    "insert into User(username, role, password) " +
         	    "values ('susie@gmail.com', 'Client', 'susie1234'), " +
@@ -257,8 +260,10 @@ public class userDAO
         	};
   
         //for loop to put these in database
-        for (int i = 0; i < INITIAL.length; i++)
+        for (int i = 0; i < INITIAL.length; i++) {
         	statement.execute(INITIAL[i]);
+        	System.out.println("Statment is ok"+ i);
+        }
         for (int i = 0; i < TUPLES.length; i++)	
         	statement.execute(TUPLES[i]);
         disconnect();
