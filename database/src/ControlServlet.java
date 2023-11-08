@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private userDAO userDAO = new userDAO();
+	    private QuoteRequestDAO QuoteRequestDAO = new QuoteRequestDAO();
 	    private String currentUser;
 	    private HttpSession session=null;
 	    
@@ -66,8 +67,10 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listUser(request, response);           	
                  break;
-        	 case "/
-	    	}
+        	 case "/submitRequest":
+        		 System.out.println("Request Submitted");
+        		 submitQuoteRequest(request,response);
+        	}
 	    }
 	    catch(Exception ex) {
         	System.out.println(ex.getMessage());
@@ -118,9 +121,24 @@ public class ControlServlet extends HttpServlet {
 	        }
 	    }
 
-	           
+	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        // Get the form data from the request
+	        String treeType = request.getParameter("treeType");
+	        String treeSize = request.getParameter("treeSize");
+	        String treeHeight = request.getParameter("treeHeight");
+	        String location = request.getParameter("location");
+	        String proximityToHouse = request.getParameter("proximityToHouse");
+
+	        QuoteRequest quoteRequest = new QuoteRequest(treeType, treeSize, treeHeight, location, proximityToHouse);
+
+	        QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
+
+	            quoteRequestDAO.insert(quoteRequest);
+	            response.sendRedirect("ClientView.jsp");
+	    }   
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    		String username = request.getParameter("username");
+	    	String username = request.getParameter("username");
 	   	 	String password = request.getParameter("password");
 	   	 	String role = request.getParameter("role");	   	 	
 	   	 	String confirm = request.getParameter("confirmation");

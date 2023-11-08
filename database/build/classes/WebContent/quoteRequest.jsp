@@ -55,7 +55,7 @@
 				
 				<tr>
 					<td align="center" colspan="5">
-						<input type="submit" value="Submit Request"/>
+						<input type="Submit" value="submitRequest"/>
 					</td>
 				</tr>
 			</table>
