@@ -66,6 +66,7 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listUser(request, response);           	
                  break;
+        	 case "/
 	    	}
 	    }
 	    catch(Exception ex) {

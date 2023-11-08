@@ -9,11 +9,13 @@
 <title>Client page</title>
 </head>
 
-<center><h1>Welcome! You have been successfully logged in</h1> </center>
+<center><h1>Welcome to Client View! View your Quotes Here</h1> </center>
 
  
 	<body>
 	 <center>
+	 
+	 	 <a href="quoteRequest.jsp"target ="_self" > Request a Quote</a><br><br> 
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> More information coming soon.</p>
 		 </center>
