@@ -44,7 +44,20 @@ public class QuoteRequestDAO {
 	        }
 	    }
 	
-	
+	 public boolean database_login(String username, String password) throws SQLException{
+	    	try {
+	    		connect_func("root","abc123");
+	    		String sql = "select * from User where username = ?";
+	    		preparedStatement = connect.prepareStatement(sql);
+	    		preparedStatement.setString(1, username);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		return rs.next();
+	    	}
+	    	catch(SQLException e) {
+	    		System.out.println("failed login");
+	    		return false;
+	    	}
+	    }
 	protected void connect_func() throws SQLException {
 	    	//uses default connection to the database
 	        if (connect == null || connect.isClosed()) {
@@ -58,23 +71,32 @@ public class QuoteRequestDAO {
 	        }
 	    }
 
-    // Create a method to insert a new quote request into the database
-    public boolean insert(QuoteRequest quoteRequest) {
-        try {
-            String sql = "INSERT INTO QuoteRequest (treeType, treeSize, treeHeight, location, proximityToHouse) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connect.prepareStatement(sql);
-            preparedStatement.setString(1, quoteRequest.getTreeType());
-            preparedStatement.setString(2, quoteRequest.getTreeSize());
-            preparedStatement.setString(3, quoteRequest.getTreeHeight());
-            preparedStatement.setString(4, quoteRequest.getLocation());
-            preparedStatement.setString(5, quoteRequest.getProximityToHouse());
+    
+	public boolean insert(QuoteRequest quoteRequest) {
+	    try {
+	        connect_func("root", "pass1234"); 
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+	        String sql = "INSERT INTO QuoteRequest (treeSize, treeHeight, location, proximityToHouse) VALUES (?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = connect.prepareStatement(sql);
+	        preparedStatement.setString(1, quoteRequest.getTreeSize());
+	        preparedStatement.setString(2, quoteRequest.getTreeHeight());
+	        preparedStatement.setString(3, quoteRequest.getLocation());
+	        preparedStatement.setString(4, quoteRequest.getProximityToHouse());
 
+	        int rowsAffected = preparedStatement.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 }
+
