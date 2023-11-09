@@ -135,7 +135,7 @@ public class ControlServlet extends HttpServlet {
 	        QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 
 	            quoteRequestDAO.insert(quoteRequest);
-	            response.sendRedirect("ClientView.jsp");
+	            response.sendRedirect("clientView.jsp");
 	    }   
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");
