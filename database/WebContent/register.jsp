@@ -36,6 +36,27 @@
 				
 				</tr>
 				<tr>
+					<th>Credit Card Number: </th>
+					<td align="center" colspan="3">
+						<input type="text" name="creditCard" size="45" value="" onfocus="this.value=''">
+					</td>
+				
+				</tr>
+				<tr>
+					<th>Address: </th>
+					<td align="center" colspan="3">
+						<input type="text" name="address" size="45" value="" onfocus="this.value=''">
+					</td>
+				
+				</tr>
+				<tr>
+					<th>Phone Number: </th>
+					<td align="center" colspan="3">
+						<input type="text" name="phoneNumber" size="45" value="" onfocus="this.value=''">
+					</td>
+				
+				</tr>
+				<tr>
 					<td align="center" colspan="5">
 						<input type="submit" value="Register"/>
 					</td>
