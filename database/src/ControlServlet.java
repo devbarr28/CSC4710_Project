@@ -123,7 +123,6 @@ public class ControlServlet extends HttpServlet {
 
 	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        // Get the form data from the request
 	        String treeType = request.getParameter("treeType");
 	        String treeSize = request.getParameter("treeSize");
 	        String treeHeight = request.getParameter("treeHeight");
@@ -135,18 +134,21 @@ public class ControlServlet extends HttpServlet {
 	        QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 
 	            quoteRequestDAO.insert(quoteRequest);
-	            response.sendRedirect("clientView.jsp");
+	            response.sendRedirect("quoteRequestConfirmation.jsp");
 	    }   
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");
 	   	 	String password = request.getParameter("password");
 	   	 	String role = request.getParameter("role");	   	 	
 	   	 	String confirm = request.getParameter("confirmation");
+	   	 	String creditCard = request.getParameter("creditCard");
+	   	 	String address = request.getParameter("address");
+	   	 	String phoneNumber = request.getParameter("phoneNumber");
 	   	 	
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkUsername(username)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(username, password, role);
+		            user users = new user(username, password, role, creditCard, address, phoneNumber);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
