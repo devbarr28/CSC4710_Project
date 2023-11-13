@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>User</title>
 </head>
 
 <a href="login.jsp"target ="_self" > logout</a><br><br> 
@@ -16,15 +16,22 @@
         <table border="1" cellpadding="6">
             <caption><h2>List of Users</h2></caption>
             <tr>
-                <th>username</th>
+                <th>Username</th>
                 <th>Password</th>
                 <th>Role</th>
+                <th>Credit Card</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                
             </tr>
             <c:forEach var="user" items="${get_user}">
                 <tr style="text-align:center">
                     <td>"${user.username}" </td>
                     <td>"${user.password}"</td>
                     <td>"${user.role}"</td>
+                    <td>"${user.creditCard}"</td>
+                    <td>"${user.address}"</td>
+                    <td>"${user.phoneNumber}"</td>
                  </tr>
             </c:forEach>
           </table>
