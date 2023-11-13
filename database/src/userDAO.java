@@ -90,8 +90,11 @@ public class userDAO
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
+            String creditCard = resultSet.getString("creditCard");
+            String address = resultSet.getString("address");
+            String phoneNumber = resultSet.getString("phoneNumber");
              
-            user users = new user(username, password, role);
+            user users = new user(username, password, role, creditCard,address,phoneNumber);
             listUser.add(users);
         }        
         resultSet.close();
@@ -112,6 +115,9 @@ public class userDAO
 			preparedStatement.setString(1, users.getUsername());
 			preparedStatement.setString(2, users.getPassword());
 			preparedStatement.setString(3, users.getRole());
+			preparedStatement.setString(4, users.getCreditCard());
+			preparedStatement.setString(5, users.getAddress());
+			preparedStatement.setString(6, users.getPhoneNumber());
 		
 
 		preparedStatement.executeUpdate();
@@ -138,6 +144,9 @@ public class userDAO
         preparedStatement.setString(1, users.getUsername());
 		preparedStatement.setString(2, users.getPassword());
 		preparedStatement.setString(3, users.getRole());
+		preparedStatement.setString(4, users.getCreditCard());
+		preparedStatement.setString(5, users.getAddress());
+		preparedStatement.setString(6, users.getPhoneNumber());
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
@@ -158,7 +167,10 @@ public class userDAO
         if (resultSet.next()) {
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
-            user = new user(username, password, role);
+            String creditCard = resultSet.getString("creditCard");
+            String address = resultSet.getString("address");
+            String phoneNumber = resultSet.getString("phoneNumber");
+            user = new user(username, password, role, creditCard, address, phoneNumber);
         }
          
         resultSet.close();
@@ -234,31 +246,35 @@ public class userDAO
      
         
        
-        String[] INITIAL = {"drop database if exists testdb; ",
-					        "create database testdb; ",
-					        "use testdb; ",
-					        "drop table if exists User; ",
-					        ("CREATE TABLE if not exists User( " +
-					            "username VARCHAR(50) UNIQUE PRIMARY KEY, " + 
-					            "password VARCHAR(20) NOT NULL, " +
-					            "role VARCHAR(15) NOT NULL) ")
-        					};
+        String[] INITIAL = {
+        	    "drop database if exists testdb;",
+        	    "create database testdb;",
+        	    "use testdb;",
+        	    "drop table if exists User;",
+        	    "CREATE TABLE if not exists User( " +
+        	    "username VARCHAR(50) UNIQUE PRIMARY KEY, " +
+        	    "password VARCHAR(20) NOT NULL, " +
+        	    "role VARCHAR(15) NOT NULL, " +
+        	    "creditCard CHAR(16), " +
+        	    "address VARCHAR(100), " +
+        	    "phoneNumber VARCHAR(20))"
+        	};
         					
         String[] TUPLES = {
-        	    "insert into User(username, role, password) " +
-        	    "values ('susie@gmail.com', 'Client', 'susie1234'), " +
-        	    "('don@gmail.com', 'Client', 'don123'), " +
-        	    "('margarita@gmail.com', 'Client', 'margarita1234'), " +
-        	    "('jo@gmail.com', 'Client', 'jo1234'), " +
-        	    "('wallace@gmail.com', 'Client', 'wallace1234'), " +
-        	    "('amelia@gmail.com', 'Client', 'amelia1234'), " +
-        	    "('sophie@gmail.com', 'Client', 'sophie1234'), " +
-        	    "('angelo@gmail.com', 'Client', 'angelo1234'), " +
-        	    "('rudy@gmail.com', 'Client', 'rudy1234'), " +
-        	    "('jeannette@gmail.com', 'Client', 'jeannette1234'), " +
-        	    "('root', 'default', 'pass1234');"
+        	    "insert into User(username, role, password, creditCard, address, phoneNumber) " +
+        	    "values ('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '555-555-5555'), " +
+        	    "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '555-555-5556'), " +
+        	    "('margarita@gmail.com', 'Client', 'margarita1234', '9876-5432-1234-5678', '789 Oak St', '555-555-5557'), " +
+        	    "('jo@gmail.com', 'Client', 'jo1234', '5432-1234-5678-9876', '101 Pine St', '555-555-5558'), " +
+        	    "('wallace@gmail.com', 'Client', 'wallace1234', '4321-1234-5678-8765', '202 Cedar St', '555-555-5559'), " +
+        	    "('amelia@gmail.com', 'Client', 'amelia1234', '8765-4321-1234-5678', '303 Birch St', '555-555-5560'), " +
+        	    "('sophie@gmail.com', 'Client', 'sophie1234', '1111-2222-3333-4444', '404 Spruce St', '555-555-5561'), " +
+        	    "('angelo@gmail.com', 'Client', 'angelo1234', '2222-3333-4444-5555', '505 Redwood St', '555-555-5562'), " +
+        	    "('rudy@gmail.com', 'Client', 'rudy1234', '3333-4444-5555-6666', '606 Sequoia St', '555-555-5563'), " +
+        	    "('jeannette@gmail.com', 'Client', 'jeannette1234', '4444-5555-6666-7777', '707 Maple St', '555-555-5564'), " +
+        	    "('root', 'default', 'pass1234', '1111-2222-3333-4444', '123 Admin St', '555-555-5565');"
         	};
-  
+        
         //for loop to put these in database
         for (int i = 0; i < INITIAL.length; i++) {
         	statement.execute(INITIAL[i]);
