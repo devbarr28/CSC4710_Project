@@ -12,9 +12,12 @@
         <table border="1" cellpadding="5">
             <caption><h2>List of People</h2></caption>
             <tr>
-		<th>Username</th>
+				<th>Username</th>
                 <th>Password</th>
                 <th>Role</th>
+                <th>Credit Card</th>
+                <th>Address</th>
+                <th>Phone Number</th>
 		
             </tr>
             <c:forEach var="users" items="${listUser}">
@@ -22,6 +25,9 @@
                     <td><c:out value="${users.username}" /></td>
                     <td><c:out value="${users.password}" /></td>
                     <td><c:out value="${users.role}" /></td>
+                    <td><c:out value="${users.creditCard}" /></td>
+                    <td><c:out value="${users.address}" /></td>
+                    <td><c:out value="${users.phoneNumber}" /></td>
 	
                 </tr>
             </c:forEach>

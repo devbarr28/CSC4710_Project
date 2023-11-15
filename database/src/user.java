@@ -1,7 +1,8 @@
 public class user 
 {
 		protected String password;
-	 	protected String username;
+	 	protected int id;
+		protected String username;
 	  	protected String role;
 	  	protected String creditCard;
 	  	protected String address;
@@ -12,9 +13,9 @@ public class user
 	    public user() {
 	    }
 	 
-	    public user(String username) 
+	    public user(int id) 
 	    {
-	        this.username = username;
+	        this.id = id;
 	    }
 	    public user(String username, String password, String role) {
 	        this.username = username;
@@ -22,7 +23,7 @@ public class user
 	        this.role = role;
 	    }
 	    
-	    public user(String username, String password, String role, String creditCard, String address, String phoneNumber) 
+	    public user( String username, String password, String role, String creditCard, String address, String phoneNumber) 
 	    {
 	    	this.username = username;
 			this.role = role;
@@ -31,6 +32,12 @@ public class user
 	    	this.address = address;
 	    	this.phoneNumber = phoneNumber;
 	    	
+	    }
+	    public int getID() {
+	    	return id;
+	    }
+	    public void setID(int id) {
+	    	this.id = id;
 	    }
 	 
 	    

@@ -17,7 +17,6 @@
 	 
 	 	 <a href="quoteRequest.jsp"target ="_self" > Request a Quote</a><br><br> 
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
-		 <p> More information coming soon.</p>
 		 </center>
 	</body>
 </html>

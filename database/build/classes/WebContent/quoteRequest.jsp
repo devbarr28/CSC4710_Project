@@ -8,7 +8,7 @@
 	<div align="center">
 		<p> ${errorOne } </p>
 		<p> ${errorTwo } </p>
-		<form action="register">
+		<form action="submitRequest">
 			<table border="1" cellpadding="5">
 				<tr>
 					<th>Tree Size: </th>
@@ -55,7 +55,7 @@
 				
 				<tr>
 					<td align="center" colspan="5">
-						<input type="Submit" value="submitRequest"/>
+						<input type="Submit" value="Submit"/>
 					</td>
 				</tr>
 			</table>
