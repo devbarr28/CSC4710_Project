@@ -26,13 +26,11 @@ CREATE TABLE Users (
 
 CREATE TABLE quoteRequest (
     quoteID INTEGER,
-    contractorid INTEGER,
     clientid INTEGER,
     price DOUBLE,
     schedulestart DATETIME,
     scheduleend DATETIME,
     PRIMARY KEY (quoteID),
-    FOREIGN KEY (contractorid) REFERENCES Users (id),
     FOREIGN KEY (clientid) REFERENCES Users (id)
 );
 
