@@ -187,7 +187,7 @@ public class userDAO
     
     public boolean checkUsername(String username) throws SQLException {
     	boolean checks = false;
-    	String sql = "SELECT * FROM User WHERE username = ?";
+    	String sql = "SELECT * FROM Users WHERE username = ?";
     	connect_func();
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, username);
@@ -287,14 +287,13 @@ public class userDAO
                     "PRIMARY KEY(id)," +
                     "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
 
-                "CREATE TABLE if not exists QuotesMessages(" +
+                "CREATE TABLE if not exists CounterRequest(" +
                 	"id INTEGER," +
                     "userid INTEGER," +
                     "quoteID INTEGER," +
-                    "msgtime DATETIME," +
                     "price DOUBLE," +
-                    "schedulestart DATETIME," +
-                    "scheduleend DATETIME," +
+                    "schedulestart VARCHAR(50)," +
+                    "scheduleend VARCHAR(50)," +
                     "note VARCHAR(200)," +
                     "FOREIGN KEY(userid) REFERENCES Users(id)," +
                     "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
@@ -332,9 +331,25 @@ public class userDAO
         String[] TUPLES = {
         		
         		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
-        		  "('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '555-555-5555', 'Susie', 'Lastname1')",
+        		  "('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '313-555-1234', 'Susie', 'Que')",
         		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
-        		  "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '555-555-5556', 'Don', 'Lastname2')",
+        		  "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '313-555-7899', 'Don', 'Zemke')" , 
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('joe@gmail.com', 'Client', 'joe1234', '5432-1234-5678-9876', '101 Pine St', '313-555-9012','Joe','Thomas') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('wallace@gmail.com', 'Client', 'wallace1234', '4321-1234-5678-8765', '202 Cedar St', '313-123-5559','Wallace','Smtih') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('amelia@gmail.com', 'Client', 'amelia1234', '8765-4321-1234-5678', '303 Birch St', '313-683-5560','Amelia','Johnson') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('sophie@gmail.com', 'Client', 'sophie1234', '1111-2222-3333-4444', '404 Spruce St', '313-900-5561','Sophie','Spags') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('angelo@gmail.com', 'Client', 'angelo1234', '2222-3333-4444-5555', '505 Redwood St', '313-333-2345','Angelo','Vasquez') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('rudy@gmail.com', 'Client', 'rudy1234', '3333-4444-5555-6666', '606 Sequoia St', '313-243-8923','Rudy','Williams') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('jeannette@gmail.com', 'Client', 'jeannette1234', '4444-5555-6666-7777', '707 Maple St', '313-720-3422','Jeannette','Jones') " ,
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('james@gmail.com', 'Client', 'james123', '1111-2222-3333-4444', '123 windridge St', '313-666-2134','James','Brown')",
         			    
 
         			    "insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) values " +
@@ -345,18 +360,7 @@ public class userDAO
 
         			    // Add other INSERT statements similarly
         		
-        	    /*"insert into Users(username, role, password, creditCard, address, phoneNumber) " +
-        	    "values ('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '555-555-5555'), " +
-        	    "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '555-555-5556'), " +
-        	    "('margarita@gmail.com', 'Client', 'margarita1234', '9876-5432-1234-5678', '789 Oak St', '555-555-5557'), " +
-        	    "('jo@gmail.com', 'Client', 'jo1234', '5432-1234-5678-9876', '101 Pine St', '555-555-5558'), " +
-        	    "('wallace@gmail.com', 'Client', 'wallace1234', '4321-1234-5678-8765', '202 Cedar St', '555-555-5559'), " +
-        	    "('amelia@gmail.com', 'Client', 'amelia1234', '8765-4321-1234-5678', '303 Birch St', '555-555-5560'), " +
-        	    "('sophie@gmail.com', 'Client', 'sophie1234', '1111-2222-3333-4444', '404 Spruce St', '555-555-5561'), " +
-        	    "('angelo@gmail.com', 'Client', 'angelo1234', '2222-3333-4444-5555', '505 Redwood St', '555-555-5562'), " +
-        	    "('rudy@gmail.com', 'Client', 'rudy1234', '3333-4444-5555-6666', '606 Sequoia St', '555-555-5563'), " +
-        	    "('jeannette@gmail.com', 'Client', 'jeannette1234', '4444-5555-6666-7777', '707 Maple St', '555-555-5564'), " +
-        	    "('root', 'default', 'pass1234', '1111-2222-3333-4444', '123 Admin St', '555-555-5565')," +
+      /*
         	    
 				"insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) " +
 				"values ((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00'), " +
@@ -390,7 +394,7 @@ public class userDAO
         	System.out.println("Create is ok"+ i);
         }
         for (int i = 0; i < TUPLES.length; i++) {
-            System.out.println("Executing SQL statement: " + TUPLES[i]);
+            System.out.println("Executing SQL statement: "+ i + TUPLES[i]);
             statement.execute(TUPLES[i]);
             System.out.println("Execution successful");
         }

@@ -13,12 +13,13 @@ public class QuoteRequest extends Users {
     	
     }
     
-    public QuoteRequest( int clientID, double price, String scheduleStart, String scheduleEnd) {
-        this.clientID = clientID;
-        this.price = price;
+    public QuoteRequest(String clientIDString, String priceString, String scheduleStart, String scheduleEnd) {
+        this.clientID = Integer.parseInt(clientIDString);
+        this.price = Double.parseDouble(priceString);
         this.scheduleStart = scheduleStart;
-        this.scheduleEnd = scheduleEnd;  
+        this.scheduleEnd = scheduleEnd;
     }
+
 
 
 	public int getQuoteID() {

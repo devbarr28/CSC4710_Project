@@ -123,18 +123,26 @@ public class ControlServlet extends HttpServlet {
 
 	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        int clientID = Integer.parseInt(request.getParameter("id"));
-	        double price = Double.parseDouble(request.getParameter("price"));
-	        String scheduleStart = request.getParameter("scheduleStart");
-	        String scheduleEnd = request.getParameter("scheduleEnd");
+	        try {
+	            String clientIDString = request.getParameter("clientID");
+	            String priceString = request.getParameter("price");
+	            String scheduleStart = request.getParameter("scheduleStart");
+	            String scheduleEnd = request.getParameter("scheduleEnd");
 
-	        QuoteRequest quoteRequest = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
+	            // Assuming you have a constructor in QuoteRequest that takes String, String, String, String
+	            QuoteRequest quoteRequest = new QuoteRequest(clientIDString, priceString, scheduleStart, scheduleEnd);
 
-	        QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
-
+	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 	            quoteRequestDAO.insert(quoteRequest);
+
 	            response.sendRedirect("quoteRequestConfirmation.jsp");
-	    }   
+	        } catch (Exception e) {
+	            // Handle exceptions
+	            response.getWriter().println("Error: An unexpected error occurred.");
+	            e.printStackTrace(); // Log the exception for debugging purposes
+	        }
+	    }
+ 
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");
 	    	String firstName = request.getParameter("firstName");
