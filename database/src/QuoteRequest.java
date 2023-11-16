@@ -1,59 +1,64 @@
-public class QuoteRequest {
-    private String treeType;
-    private String treeSize;
-    private String treeHeight;
-    private String location;
-    private String proximityToHouse;
+import java.util.Date;
 
+public class QuoteRequest extends Users {
+
+    private int clientID;
+    private int quoteID;
+    private double price;
+    private String scheduleStart;
+    private String scheduleEnd;
+
+    // Constructors, getters, and setters
     public QuoteRequest() {
+    	
     }
-
-    public QuoteRequest(String treeType, String treeSize, String treeHeight, String location, String proximityToHouse) {
-        this.treeType = treeType;
-        this.treeSize = treeSize;
-        this.treeHeight = treeHeight;
-        this.location = location;
-        this.proximityToHouse = proximityToHouse;
-    }
-
     
-    public String getTreeType() {
-        return treeType;
+    public QuoteRequest( int clientID, double price, String scheduleStart, String scheduleEnd) {
+        this.clientID = clientID;
+        this.price = price;
+        this.scheduleStart = scheduleStart;
+        this.scheduleEnd = scheduleEnd;  
     }
 
-    public void setTreeType(String treeType) {
-        this.treeType = treeType;
+
+	public int getQuoteID() {
+        return quoteID;
     }
 
-    public String getTreeSize() {
-        return treeSize;
+    public void setQuoteID(int quoteID) {
+        this.quoteID = quoteID;
     }
 
-    public void setTreeSize(String treeSize) {
-        this.treeSize = treeSize;
+    public int getClientID() {
+        return clientID;
     }
 
-    public String getTreeHeight() {
-        return treeHeight;
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
     }
 
-    public void setTreeHeight(String treeHeight) {
-        this.treeHeight = treeHeight;
+    public double getPrice() {
+        return price;
     }
 
-    public String getLocation() {
-        return location;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public String getScheduleStart() {
+        return scheduleStart;
     }
 
-    public String getProximityToHouse() {
-        return proximityToHouse;
+    public void setScheduleStart(String scheduleStart) {
+        this.scheduleStart = scheduleStart;
     }
 
-    public void setProximityToHouse(String proximityToHouse) {
-        this.proximityToHouse = proximityToHouse;
+    public String getScheduleEnd() {
+        return scheduleEnd;
     }
+
+    public void setScheduleEnd(String scheduleEnd) {
+        this.scheduleEnd = scheduleEnd;
+    }
+
 }

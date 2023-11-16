@@ -10,7 +10,7 @@ public class CounterRequest implements Serializable {
     public CounterRequest() {
     }
 
-    public CounterRequest(int quoteId, String counterNotes, double newPrice) {
+    public CounterRequest(int quoteId, String counterNotes, double counterPrice) {
         this.quoteId = quoteId;
         this.counterNotes = counterNotes;
         this.counterPrice = counterPrice;

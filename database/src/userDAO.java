@@ -79,22 +79,24 @@ public class userDAO
         }
     }
     
-    public List<user> listAllUsers() throws SQLException {
-        List<user> listUser = new ArrayList<user>();        
-        String sql = "SELECT * FROM User";      
+    public List<Users> listAllUsers() throws SQLException {
+        List<Users> listUser = new ArrayList<Users>();        
+        String sql = "SELECT * FROM Users";      
         connect_func();      
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
          
         while (resultSet.next()) {
             String username = resultSet.getString("username");
+            String firstName = resultSet.getString("firstName");
+            String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
             String creditCard = resultSet.getString("creditCard");
             String address = resultSet.getString("address");
             String phoneNumber = resultSet.getString("phoneNumber");
              
-            user users = new user(username, password, role, creditCard,address,phoneNumber);
+            Users users = new Users(username, firstName, lastName, password, role, creditCard,address,phoneNumber);
             listUser.add(users);
         }        
         resultSet.close();
@@ -108,9 +110,9 @@ public class userDAO
         }
     }
     
-    public void insert(user users) throws SQLException {
+    public void insert(Users users) throws SQLException {
     	connect_func("root","pass1234");         
-		String sql = "insert into User( username, password, role, creditCard, address, phoneNumber) values ( ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into User( username, password, role, creditCard, address, phoneNumber, firstName, lastName) values (?, ?, ?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setString(1, users.getUsername());
 			preparedStatement.setString(2, users.getPassword());
@@ -118,61 +120,63 @@ public class userDAO
 			preparedStatement.setString(4, users.getCreditCard());
 			preparedStatement.setString(5, users.getAddress());
 			preparedStatement.setString(6, users.getPhoneNumber());
-		
-
-		preparedStatement.executeUpdate();
+			preparedStatement.setString(7, users.getLastName());
+			preparedStatement.setString(8, users.getFirstName());
+			
         preparedStatement.close();
     }
     
-    public boolean delete(String id) throws SQLException {
+    public boolean delete(String username) throws SQLException {
         String sql = "DELETE FROM User WHERE username = ?";        
         connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, id);
+        preparedStatement.setString(1, username);
          
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
         return rowDeleted;     
     }
      
-    public boolean update(user users) throws SQLException {
-        String sql = "update User set password = ?, role = ?, where email = ?";
+    public boolean update(Users users) throws SQLException {
+        String sql = "update User set password = ?, role = ?, where username = ?, where firstName = ?, where lastName = ?, where creditCard = ?, where address = ?, where phoneNumber = ?";
         connect_func();
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, users.getID());
-        preparedStatement.setString(2, users.getUsername());
-		preparedStatement.setString(3, users.getPassword());
-		preparedStatement.setString(4, users.getRole());
-		preparedStatement.setString(5, users.getCreditCard());
-		preparedStatement.setString(6, users.getAddress());
-		preparedStatement.setString(7, users.getPhoneNumber());
+        preparedStatement.setString(1, users.getUsername());
+        preparedStatement.setString(2, users.getFirstName());
+        preparedStatement.setString(3, users.getLastName());
+		preparedStatement.setString(4, users.getPassword());
+		preparedStatement.setString(5, users.getRole());
+		preparedStatement.setString(6, users.getCreditCard());
+		preparedStatement.setString(7, users.getAddress());
+		preparedStatement.setString(8, users.getPhoneNumber());
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
         return rowUpdated;     
     }
     
-    public user getUser(int id) throws SQLException {
-    	user user = null;
+    public Users getUser(String username) throws SQLException {
+    	Users user = null;
         String sql = "SELECT * FROM User WHERE username = ?";
          
         connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1, username);
          
         ResultSet resultSet = preparedStatement.executeQuery();
          
         if (resultSet.next()) {
-        	String username = resultSet.getString("username");
+        	String firstName = resultSet.getString("firstName");
+        	String lastName = resultSet.getString("lastName");
             String password = resultSet.getString("password");
             String role = resultSet.getString("role");
             String creditCard = resultSet.getString("creditCard");
             String address = resultSet.getString("address");
             String phoneNumber = resultSet.getString("phoneNumber");
-            user = new user( username, password, role, creditCard, address, phoneNumber);
+            user = new Users( username,firstName,lastName, password, role, creditCard, address, phoneNumber);
         }
          
         resultSet.close();
@@ -254,37 +258,37 @@ public class userDAO
                 "use testdb;",
 
                 "CREATE TABLE if not exists Users(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                	"id INTEGER AUTO_INCREMENT PRIMARY KEY," +
+                	"role VARCHAR(50)," +
+                	"password VARCHAR(50),"+
                 	"username VARCHAR(50),"+
                     "firstname VARCHAR(50)," +
                     "lastname VARCHAR(50)," +
-                    "creditCard CHAR(16)," +
+                    "creditCard CHAR(50)," +
                     "phoneNumber VARCHAR(50)," +
-                    "PRIMARY KEY(id)," +
+                    "address VARCHAR(50),"+
                     "UNIQUE(username))",
 
-                "CREATE TABLE if not exists quoteRequest(" +
-                    "quoteID INTEGER AUTO_INCREMENT," +
-                    "contractorid INTEGER," +
-                    "clientid INTEGER," +
+                "CREATE TABLE if not exists QuoteRequests(" +
+                	"id INTEGER AUTO_INCREMENT PRIMARY KEY," +
+                    "quoteID INTEGER," +
+                    "clientID INTEGER," +
                     "price DOUBLE," +
-                    "schedulestart DATETIME," +
-                    "scheduleend DATETIME," +
-                    "PRIMARY KEY(id)," +
-                    "FOREIGN KEY (contractorid) REFERENCES Users(id)," +
-                    "FOREIGN KEY (clientid) REFERENCES Users(id))",
+                    "scheduleStart VARCHAR(50)," +
+                    "scheduleEnd VARCHAR(50)," +
+                    "FOREIGN KEY (clientID) REFERENCES Users(id))",
 
                 "CREATE TABLE if not exists Trees(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                	"id INTEGER,"+
                     "quoteID INTEGER," +
                     "size DOUBLE," +
                     "height DOUBLE," +
                     "distanceFromHouse DOUBLE," +
                     "PRIMARY KEY(id)," +
-                    "FOREIGN KEY(quoteID) REFERENCES quoteRequest(quoteID))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
 
                 "CREATE TABLE if not exists QuotesMessages(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                	"id INTEGER," +
                     "userid INTEGER," +
                     "quoteID INTEGER," +
                     "msgtime DATETIME," +
@@ -292,31 +296,28 @@ public class userDAO
                     "schedulestart DATETIME," +
                     "scheduleend DATETIME," +
                     "note VARCHAR(200)," +
-                    "PRIMARY KEY(id)," +
                     "FOREIGN KEY(userid) REFERENCES Users(id)," +
-                    "FOREIGN KEY(quoteID) REFERENCES quoteRequest(quoteID))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
 
                 "CREATE TABLE if not exists Orders(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                    "id INTEGER AUTO_INCREMENT PRIMARY KEY," +
                     "quoteID INTEGER," +
                     "price DOUBLE," +
                     "schedulestart DATETIME," +
                     "scheduleend DATETIME," +
-                    "PRIMARY KEY(id)," +
-                    "FOREIGN KEY(quoteID) REFERENCES quoteRequest(quoteID))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
 
                 "CREATE TABLE if not exists Bills(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                    "id INTEGER AUTO_INCREMENT PRIMARY KEY," +
                     "orderid INTEGER," +
                     "price DOUBLE," +
                     "discount DOUBLE," +
                     "balance DOUBLE," +
                     "status VARCHAR(20)," +
-                    "PRIMARY KEY(id)," +
                     "FOREIGN KEY(orderid) REFERENCES Orders(id))",
 
                 "CREATE TABLE if not exists BillsMessages(" +
-                    "id INTEGER AUTO_INCREMENT," +
+                    "id INTEGER AUTO_INCREMENT PRIMARY KEY," +
                     "userid INTEGER," +
                     "billid INTEGER," +
                     "msgtime DATETIME," +
@@ -324,13 +325,27 @@ public class userDAO
                     "schedulestart DATETIME," +
                     "scheduleend DATETIME," +
                     "note VARCHAR(200)," +
-                    "PRIMARY KEY(id)," +
                     "FOREIGN KEY(userid) REFERENCES Users(id)," +
                     "FOREIGN KEY(billid) REFERENCES Bills(id))"
             };
 			
         String[] TUPLES = {
-        	    "insert into User(username, role, password, creditCard, address, phoneNumber) " +
+        		
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '555-555-5555', 'Susie', 'Lastname1')",
+        		  "insert into Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) values " +
+        		  "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '555-555-5556', 'Don', 'Lastname2')",
+        			    
+
+        			    "insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) values " +
+        			        "((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')",
+        			    "insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) values " +
+        			        "((SELECT id FROM Users WHERE username = 'margarita@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
+        			    // Add other QuoteRequests INSERT statements similarly
+
+        			    // Add other INSERT statements similarly
+        		
+        	    /*"insert into Users(username, role, password, creditCard, address, phoneNumber) " +
         	    "values ('susie@gmail.com', 'Client', 'susie1234', '1234-5678-9876-5432', '123 Main St', '555-555-5555'), " +
         	    "('don@gmail.com', 'Client', 'don123', '5678-9876-5432-1234', '456 Elm St', '555-555-5556'), " +
         	    "('margarita@gmail.com', 'Client', 'margarita1234', '9876-5432-1234-5678', '789 Oak St', '555-555-5557'), " +
@@ -343,9 +358,9 @@ public class userDAO
         	    "('jeannette@gmail.com', 'Client', 'jeannette1234', '4444-5555-6666-7777', '707 Maple St', '555-555-5564'), " +
         	    "('root', 'default', 'pass1234', '1111-2222-3333-4444', '123 Admin St', '555-555-5565')," +
         	    
-				"insert into quoteRequests(contractorid, clientid, price, schedulestart, scheduleend)" +
-				"values (1, 2, 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')," +
-				"(2, 3, 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')," +
+				"insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) " +
+				"values ((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00'), " +
+				"((SELECT id FROM Users WHERE username = 'margarita@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')," +
 
 				"insert into Trees(quoteID, size, height, distanceFromHouse) values " +
 				"(1, 10.5, 15.0, 5.0)," +
@@ -365,17 +380,22 @@ public class userDAO
 
 				"insert into BillsMessages(userid, billid, msgtime, price, schedulestart, scheduleend, note) values " +
 				"(1, 1, '2023-01-01 12:30:00', 100.00, '2023-01-01 13:30:00', '2023-01-01 14:30:00', 'Note 1')," +
-				"(2, 2, '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2')" 
+				"(2, 2, '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2')" */
 
         	};
         
         //for loop to put these in database
         for (int i = 0; i < INITIAL.length; i++) {
         	statement.execute(INITIAL[i]);
-        	System.out.println("Statment is ok"+ i);
+        	System.out.println("Create is ok"+ i);
         }
-        for (int i = 0; i < TUPLES.length; i++)	
-        	statement.execute(TUPLES[i]);
+        for (int i = 0; i < TUPLES.length; i++) {
+            System.out.println("Executing SQL statement: " + TUPLES[i]);
+            statement.execute(TUPLES[i]);
+            System.out.println("Execution successful");
+        }
+        	
+    
         disconnect();
     }
     

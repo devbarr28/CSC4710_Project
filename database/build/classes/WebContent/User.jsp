@@ -26,12 +26,12 @@
             </tr>
             <c:forEach var="user" items="${get_user}">
                 <tr style="text-align:center">
-                    <td>"${user.username}" </td>
-                    <td>"${user.password}"</td>
-                    <td>"${user.role}"</td>
-                    <td>"${user.creditCard}"</td>
-                    <td>"${user.address}"</td>
-                    <td>"${user.phoneNumber}"</td>
+                    <td>"${Users.username}" </td>
+                    <td>"${Users.password}"</td>
+                    <td>"${Users.role}"</td>
+                    <td>"${Users.creditCard}"</td>
+                    <td>"${Users.address}"</td>
+                    <td>"${Users.phoneNumber}"</td>
                  </tr>
             </c:forEach>
           </table>

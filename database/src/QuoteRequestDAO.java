@@ -76,12 +76,12 @@ public class QuoteRequestDAO {
 	    try {
 	        connect_func("root", "pass1234"); 
 
-	        String sql = "INSERT INTO QuoteRequest (treeSize, treeHeight, location, proximityToHouse) VALUES (?, ?, ?, ?)";
-	        PreparedStatement preparedStatement = connect.prepareStatement(sql);
-	        preparedStatement.setString(1, quoteRequest.getTreeSize());
-	        preparedStatement.setString(2, quoteRequest.getTreeHeight());
-	        preparedStatement.setString(3, quoteRequest.getLocation());
-	        preparedStatement.setString(4, quoteRequest.getProximityToHouse());
+	        String sql = "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES ((SELECT id FROM Users WHERE username = ?), ?, ?, ?)";
+	         PreparedStatement preparedStatement = connect.prepareStatement(sql);
+	        preparedStatement.setDouble(1, quoteRequest.getPrice());
+	        preparedStatement.setString(2, quoteRequest.getScheduleStart());
+	        preparedStatement.setString(3, quoteRequest.getScheduleEnd());
+
 
 	        int rowsAffected = preparedStatement.executeUpdate();
 	        return rowsAffected > 0;

@@ -82,8 +82,8 @@ public class ControlServlet extends HttpServlet {
 	        System.out.println("listUser started: 00000000000000000000000000000000000");
 
 	     
-	        List<user> listUser = userDAO.listAllUsers();
-	        request.setAttribute("listUser", listUser);       
+	        List<Users> listUsers = userDAO.listAllUsers();
+	        request.setAttribute("listUser", listUsers);       
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
 	        dispatcher.forward(request, response);
 	     
@@ -92,7 +92,7 @@ public class ControlServlet extends HttpServlet {
 	    	        
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
-			request.setAttribute("listUser", userDAO.listAllUsers());
+			request.setAttribute("listUsers", userDAO.listAllUsers());
 	    	request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	    }
 	    
@@ -123,13 +123,12 @@ public class ControlServlet extends HttpServlet {
 
 	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        String treeType = request.getParameter("treeType");
-	        String treeSize = request.getParameter("treeSize");
-	        String treeHeight = request.getParameter("treeHeight");
-	        String location = request.getParameter("location");
-	        String proximityToHouse = request.getParameter("proximityToHouse");
+	        int clientID = Integer.parseInt(request.getParameter("id"));
+	        double price = Double.parseDouble(request.getParameter("price"));
+	        String scheduleStart = request.getParameter("scheduleStart");
+	        String scheduleEnd = request.getParameter("scheduleEnd");
 
-	        QuoteRequest quoteRequest = new QuoteRequest(treeType, treeSize, treeHeight, location, proximityToHouse);
+	        QuoteRequest quoteRequest = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
 
 	        QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 
@@ -138,6 +137,8 @@ public class ControlServlet extends HttpServlet {
 	    }   
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");
+	    	String firstName = request.getParameter("firstName");
+	    	String lastName = request.getParameter("lastName");
 	   	 	String password = request.getParameter("password");
 	   	 	String role = request.getParameter("role");	   	 	
 	   	 	String confirm = request.getParameter("confirmation");
@@ -148,7 +149,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkUsername(username)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-					user users = new user( username, password, role, creditCard, address, phoneNumber);
+					Users users = new Users( username,firstName, lastName, password, role, creditCard, address, phoneNumber);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
