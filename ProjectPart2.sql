@@ -1,18 +1,14 @@
 CREATE DATABASE IF NOT EXISTS testdb;
 USE testdb;
 
--- Drop dependent tables first
 DROP TABLE IF EXISTS BillsMessages;
 DROP TABLE IF EXISTS Bills;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS QuotesMessages;
 DROP TABLE IF EXISTS Trees;
 DROP TABLE IF EXISTS quoteRequest;
-
--- Drop the Users table now
 DROP TABLE IF EXISTS Users;
 
--- Recreate the tables in the desired order
 CREATE TABLE Users (
     id INTEGER AUTO_INCREMENT,
     firstname VARCHAR(50),
@@ -25,7 +21,7 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE quoteRequest (
-    quoteID INTEGER,
+    quoteID INTEGER AUTO_INCREMENT,
     clientid INTEGER,
     price DOUBLE,
     schedulestart DATETIME,
