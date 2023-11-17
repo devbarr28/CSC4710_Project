@@ -89,6 +89,18 @@ public class ControlServlet extends HttpServlet {
 	     
 	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
 	    }
+	    private void listQuotes(HttpServletRequest request, HttpServletResponse response)
+	            throws SQLException, IOException, ServletException {
+	        System.out.println("list quotes started: 00000000000000000000000000000000000");
+
+	     
+	        List<QuoteRequest> listQuotes = QuoteRequestDAO.listAllQuotes();
+	        request.setAttribute("listQuote", listQuotes);       
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
+	        dispatcher.forward(request, response);
+	     
+	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
+	    }
 	    	        
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
@@ -124,13 +136,15 @@ public class ControlServlet extends HttpServlet {
 	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 	        try {
-	            String clientIDString = request.getParameter("clientID");
+	            // Convert clientID from String to int
+	            int clientID = Integer.parseInt(request.getParameter("clientID"));
+
 	            String priceString = request.getParameter("price");
 	            String scheduleStart = request.getParameter("scheduleStart");
 	            String scheduleEnd = request.getParameter("scheduleEnd");
 
-	            // Assuming you have a constructor in QuoteRequest that takes String, String, String, String
-	            QuoteRequest quoteRequest = new QuoteRequest(clientIDString, priceString, scheduleStart, scheduleEnd);
+	            // Assuming you have a constructor in QuoteRequest that takes int, String, String, String
+	            QuoteRequest quoteRequest = new QuoteRequest(clientID, priceString, scheduleStart, scheduleEnd);
 
 	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 	            quoteRequestDAO.insert(quoteRequest);
@@ -142,7 +156,7 @@ public class ControlServlet extends HttpServlet {
 	            e.printStackTrace(); // Log the exception for debugging purposes
 	        }
 	    }
- 
+
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");
 	    	String firstName = request.getParameter("firstName");

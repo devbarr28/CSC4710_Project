@@ -14,7 +14,7 @@
  
 	<body>
 	 <center>
-	 
+	 	 
 	 	 <a href="quoteRequest.jsp"target ="_self" > Request a Quote</a><br><br> 
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 </center>

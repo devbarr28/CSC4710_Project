@@ -47,15 +47,10 @@
                 </c:forEach>
             </table>
 
-            <form action="submitRequest" method="post" enctype="multipart/form-data">
-                <br>
-                <input type="submit" value="Submit Request"/>
-            </form>
-
             <br>
+            <a href="counterRequest.jsp" target="_self">Make a Counter Request</a><br><br>
             <a href="login.jsp" target="_self">Logout</a><br><br>
-            <a href="clientView.jsp" target="_self">Return to Client View Page</a>
-        </div>
+            </div>
     </center>
 </body>
 </html>

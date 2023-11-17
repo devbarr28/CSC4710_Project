@@ -20,6 +20,19 @@ public class Users
 	        this.password = password;
 	        this.role = role;
 	    }
+	    public Users(int id, String username, String firstName, String lastName, String password, String role, String creditCard, String address, String phoneNumber) 
+	    {
+	    	this.id = id;
+	    	this.username = username;
+	    	this.firstName = firstName;
+	    	this.lastName = lastName;
+			this.role = role;
+	    	this.password = password;
+	    	this.creditCard = creditCard;
+	    	this.address = address;
+	    	this.phoneNumber = phoneNumber;
+	    	
+	    }
 	    
 	    public Users( String username, String firstName, String lastName, String password, String role, String creditCard, String address, String phoneNumber) 
 	    {
@@ -39,8 +52,6 @@ public class Users
 	    public void setID(int id) {
 	    	this.id = id;
 	    }
-	 
-	    
 	    public String getUsername() {
 	        return username;
 	    }

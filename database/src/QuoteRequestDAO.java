@@ -43,7 +43,26 @@ public class QuoteRequestDAO {
 	            System.out.println(connect);
 	        }
 	    }
-	
+	 public List<QuoteRequest> listAllQuotes() throws SQLException {
+	        List<QuoteRequest> listQuote = new ArrayList<QuoteRequest>();        
+	        String sql = "SELECT * FROM QuoteRequests";      
+	        connect_func();      
+	        statement = (Statement) connect.createStatement();
+	        ResultSet resultSet = statement.executeQuery(sql);
+	         
+	        while (resultSet.next()) {
+	            int clientID = resultSet.getInt("clientID");
+	            String price = resultSet.getString("price");
+	            String scheduleStart = resultSet.getString("schedueStart");
+	            String scheduleEnd = resultSet.getString("scheduleEnd");
+	            
+	            QuoteRequest quotes = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
+	            listQuote.add(quotes);
+	        }        
+	        resultSet.close();
+	        disconnect();        
+	        return listQuote;
+	    }
 	 public boolean database_login(String username, String password) throws SQLException{
 	    	try {
 	    		connect_func("root","abc123");
@@ -70,6 +89,11 @@ public class QuoteRequestDAO {
 	            System.out.println(connect);
 	        }
 	    }
+	protected void disconnect() throws SQLException {
+        if (connect != null && !connect.isClosed()) {
+        	connect.close();
+        }
+    }
 
     
 	public boolean insert(QuoteRequest quoteRequest) {
@@ -78,7 +102,7 @@ public class QuoteRequestDAO {
 
 	        String sql = "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES ((SELECT id FROM Users WHERE username = ?), ?, ?, ?)";
 	         PreparedStatement preparedStatement = connect.prepareStatement(sql);
-	        preparedStatement.setDouble(1, quoteRequest.getPrice());
+	        preparedStatement.setString(1, quoteRequest.getPrice());
 	        preparedStatement.setString(2, quoteRequest.getScheduleStart());
 	        preparedStatement.setString(3, quoteRequest.getScheduleEnd());
 

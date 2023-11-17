@@ -22,7 +22,7 @@
         <table border="1" cellpadding="6">
             <caption><h2>List of Users</h2></caption>
             <tr>
-                <th>Username</th>
+                <th>User name</th>
                 <th>First Name</th>
                 <th>Last Name
                 <th>Password</th>

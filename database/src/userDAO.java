@@ -205,7 +205,7 @@ public class userDAO
     
     public boolean checkPassword(String password) throws SQLException {
     	boolean checks = false;
-    	String sql = "SELECT * FROM User WHERE password = ?";
+    	String sql = "SELECT * FROM Users WHERE password = ?";
     	connect_func();
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, password);
@@ -225,7 +225,7 @@ public class userDAO
     
     public boolean isValid(String username, String password) throws SQLException
     {
-    	String sql = "SELECT * FROM User";
+    	String sql = "SELECT * FROM Users";
     	connect_func();
     	statement = (Statement) connect.createStatement();
     	ResultSet resultSet = statement.executeQuery(sql);
@@ -270,8 +270,7 @@ public class userDAO
                     "UNIQUE(username))",
 
                 "CREATE TABLE if not exists QuoteRequests(" +
-                	"id INTEGER AUTO_INCREMENT PRIMARY KEY," +
-                    "quoteID INTEGER," +
+                	"QuoteID INTEGER AUTO_INCREMENT PRIMARY KEY," +
                     "clientID INTEGER," +
                     "price DOUBLE," +
                     "scheduleStart VARCHAR(50)," +
@@ -285,7 +284,7 @@ public class userDAO
                     "height DOUBLE," +
                     "distanceFromHouse DOUBLE," +
                     "PRIMARY KEY(id)," +
-                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(QuoteID))",
 
                 "CREATE TABLE if not exists CounterRequest(" +
                 	"id INTEGER," +
@@ -296,7 +295,7 @@ public class userDAO
                     "scheduleend VARCHAR(50)," +
                     "note VARCHAR(200)," +
                     "FOREIGN KEY(userid) REFERENCES Users(id)," +
-                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(QuoteID))",
 
                 "CREATE TABLE if not exists Orders(" +
                     "id INTEGER AUTO_INCREMENT PRIMARY KEY," +
@@ -304,7 +303,7 @@ public class userDAO
                     "price DOUBLE," +
                     "schedulestart DATETIME," +
                     "scheduleend DATETIME," +
-                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(id))",
+                    "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(QuoteID))",
 
                 "CREATE TABLE if not exists Bills(" +
                     "id INTEGER AUTO_INCREMENT PRIMARY KEY," +
