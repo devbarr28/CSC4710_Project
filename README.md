@@ -52,7 +52,8 @@ Download the Eclipse IDE for Java and Web developers from the official site.
   Tomcat server and open it on your web browser.
 
 ## Contributions
-  Total Hours: 8-9
+  Part 1: 8-9 Hours
+  Part 2: 12-15 Hours
   
   Devin:
   
