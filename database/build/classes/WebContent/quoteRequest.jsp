@@ -24,12 +24,6 @@
 	
 				</tr>
 				<tr>
-					<th>Tree Location: </th>
-					<td align="center" colspan="3"> 
-						<input type="text" name="treeLocation" size="135" value="" onfocus="this.value=''">
-					</td>
-				</tr>
-				<tr>
 					<th>Proximity to House: </th>
 					<td align="center" colspan="3">
 						<input type="text" name="houseProximity" size="135" value="" onfocus="this.value=''">

@@ -12,12 +12,12 @@
         <table border="1" cellpadding="5">
             <caption><h2>List of People</h2></caption>
             <tr>
-		<th>Client ID</th>
+				<th>Client ID</th>
                 <th>Price</th>
                 <th>scheduled Start</th>
                 <th>Scheduled End</th>
             </tr>
-            <c:forEach var="Users" items="${listQuoutes}">
+            <c:forEach var="Users" items="${listAllQuotes}">
                 <tr style="text-align:center">
                     <td><c:out value="${QuoteRequest.clientID}" /></td>
                     <td><c:out value="${QuoteRequest.price}" /></td>

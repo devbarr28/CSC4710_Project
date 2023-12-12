@@ -36,7 +36,7 @@ public class CounterRequest implements Serializable {
         return counterPrice;
     }
 
-    public void setNewPrice(double counterPrice) {
+    public void setCounterPrice(double counterPrice) {
         this.counterPrice = counterPrice;
     }
 }

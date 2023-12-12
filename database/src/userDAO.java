@@ -244,7 +244,168 @@ public class userDAO
     	}
     	return false;
     }
+    public List<Users> getBigClients() {
+        List<Users> bigClients = new ArrayList<>();
+        try {
+            connect_func();
+            String sql = "SELECT u.id, u.firstname, u.lastname, u.creditCard, u.username, u.phoneNumber, COUNT(t.id) as treeCount " +
+                         "FROM Users u " +
+                         "LEFT JOIN Trees t ON u.id = t.userid " +
+                         "GROUP BY u.id " +
+                         "ORDER BY treeCount DESC " +
+                         "LIMIT 1";
+            preparedStatement = connect.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Populate bigClients from the result set
+            while (resultSet.next()) {
+                Users user = new Users();
+                user.setID(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setCreditCard(resultSet.getString("creditCard"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPhoneNumber(resultSet.getString("phoneNumber"));
+                bigClients.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bigClients;
+    }
     
+    public List<Users> getEasyClients() {
+        List<Users> easyClients = new ArrayList<>();
+        try {
+            connect_func();
+            String sql = "SELECT u.* " +
+                         "FROM Users u " +
+                         "LEFT JOIN QuoteRequests qr ON u.id = qr.clientID " +
+                         "WHERE qr.status = 'Accepted' AND qr.counterOffer IS NULL";
+            preparedStatement = connect.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Populate easyClients from the result set
+            while (resultSet.next()) {
+                Users user = new Users();
+                user.setID(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setCreditCard(resultSet.getString("creditCard"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPhoneNumber(resultSet.getString("phoneNumber"));
+                easyClients.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        return easyClients;
+    }
+    public List<Users> getProspectiveClients() {
+        List<Users> prospectiveClients = new ArrayList<>();
+        try {
+            connect_func();
+            String sql = "SELECT u.* " +
+                         "FROM Users u " +
+                         "LEFT JOIN QuoteRequests qr ON u.id = qr.clientID " +
+                         "LEFT JOIN Orders o ON qr.QuoteID = o.quoteID " +
+                         "WHERE o.id IS NULL AND qr.status = 'Accepted'";
+            preparedStatement = connect.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Populate prospectiveClients from the result set
+            while (resultSet.next()) {
+                Users user = new Users();
+                user.setID(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setCreditCard(resultSet.getString("creditCard"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPhoneNumber(resultSet.getString("phoneNumber"));
+                prospectiveClients.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        return prospectiveClients;
+    }
+    public List<Users> getGoodClients() {
+        List<Users> goodClients = new ArrayList<>();
+        try {
+            connect_func();
+            String sql = "SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.clientID = u.id AND b.status = 'Unpaid')";
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            // Populate goodClients from the result set
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
+                String creditCard = resultSet.getString("creditCard");
+                String address = resultSet.getString("address");
+                String phoneNumber = resultSet.getString("phoneNumber");
+
+                Users user = new Users(id, username, firstName, lastName, password, role, creditCard, address, phoneNumber);
+                goodClients.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return goodClients;
+    }
+
+    // Get clients who have never paid any bill after it is due
+    public List<Users> getBadClients() {
+        List<Users> badClients = new ArrayList<>();
+        try {
+            connect_func();
+            String sql = "SELECT * FROM Users u WHERE EXISTS (SELECT * FROM Bills b WHERE b.clientID = u.id AND b.status = 'Unpaid')";
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            // Populate badClients from the result set
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
+                String creditCard = resultSet.getString("creditCard");
+                String address = resultSet.getString("address");
+                String phoneNumber = resultSet.getString("phoneNumber");
+
+                Users user = new Users(id, username, firstName, lastName, password, role, creditCard, address, phoneNumber);
+                badClients.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return badClients;
+    }
+
     
     public void init() throws SQLException, FileNotFoundException, IOException{
     	connect_func();
@@ -354,37 +515,30 @@ public class userDAO
         			    "insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) values " +
         			        "((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')",
         			    "insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) values " +
-        			        "((SELECT id FROM Users WHERE username = 'margarita@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
+        			        "((SELECT id FROM Users WHERE username = 'susie@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
         			    // Add other QuoteRequests INSERT statements similarly
 
         			    // Add other INSERT statements similarly
         		
-      /*
-        	    
-				"insert into QuoteRequests(clientID, price, scheduleStart, scheduleEnd) " +
-				"values ((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00'), " +
-				"((SELECT id FROM Users WHERE username = 'margarita@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')," +
+        			        "INSERT INTO Trees(quoteID, size, height, distanceFromHouse) VALUES " +
+        			        "((SELECT quoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'don@gmail.com'), 10.5, 15.0, 5.0)," +
+        			        "((SELECT quoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'susie@gmail.com'), 8.0, 12.0, 3.0);",
 
-				"insert into Trees(quoteID, size, height, distanceFromHouse) values " +
-				"(1, 10.5, 15.0, 5.0)," +
-				"(2, 8.0, 12.0, 3.0)," +
+        			    "INSERT INTO CounterRequest(userid, quoteID, price, schedulestart, scheduleend, note) VALUES " +
+        			        "(1, 1, 100.00, '2023-01-01 11:30:00', '2023-01-01 12:30:00', 'Note 1')," +
+        			        "(2, 2, 150.00, '2023-01-02 12:45:00', '2023-01-02 13:45:00', 'Note 2');",
 
-				"insert into QuotesMessages(userid, quoteid, msgtime, price, schedulestart, scheduleend, note) values " +
-				"(1, 1, '2023-01-01 11:30:00', 100.00, '2023-01-01 12:30:00', '2023-01-01 13:30:00', 'Note 1')," +
-				"(2, 2, '2023-01-02 12:45:00', 150.00, '2023-01-02 13:45:00', '2023-01-02 14:45:00', 'Note 2')," +
-	
-				"insert into Orders(quoteid, price, schedulestart, scheduleend) values " +
-				"(1, 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')," +
-				"(2, 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')," +
+        			    "INSERT INTO Orders(quoteID, price, schedulestart, scheduleend) VALUES " +
+        			        "(1, 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')," +
+        			        "(2, 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00');",
 
-				"insert into Bills(orderid, price, discount, balance, status) values " +
-				"(1, 100.00, 0.0, 100.00, 'pending')," +
-				"(2, 150.00, 0.0, 150.00, 'pending')," +
+        			    "INSERT INTO Bills(orderid, price, discount, balance, status) VALUES " +
+        			        "(1, 100.00, 0.0, 100.00, 'pending')," +
+        			        "(2, 150.00, 0.0, 150.00, 'pending');",
 
-				"insert into BillsMessages(userid, billid, msgtime, price, schedulestart, scheduleend, note) values " +
-				"(1, 1, '2023-01-01 12:30:00', 100.00, '2023-01-01 13:30:00', '2023-01-01 14:30:00', 'Note 1')," +
-				"(2, 2, '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2')" */
-
+        			    "INSERT INTO BillsMessages(userid, billid, msgtime, price, schedulestart, scheduleend, note) VALUES " +
+        			        "(1, 1, '2023-01-01 12:30:00', 100.00, '2023-01-01 13:30:00', '2023-01-01 14:30:00', 'Note 1')," +
+        			        "(2, 2, '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2');"
         	};
         
         //for loop to put these in database

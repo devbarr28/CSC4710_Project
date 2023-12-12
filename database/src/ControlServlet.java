@@ -102,12 +102,38 @@ public class ControlServlet extends HttpServlet {
 	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
 	    }
 	    	        
-	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
-	    	System.out.println("root view");
-			request.setAttribute("listUsers", userDAO.listAllUsers());
-	    	request.getRequestDispatcher("rootView.jsp").forward(request, response);
-	    }
 	    
+	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view)
+	            throws ServletException, IOException, SQLException {
+	        System.out.println("root view");
+	        request.getRequestDispatcher("rootView.jsp").forward(request, response);
+	        // Assuming you have methods in your DAO for each of these functionalities
+	        List<Users> bigClients = userDAO.getBigClients();
+	        List<Users> easyClients = userDAO.getEasyClients();
+	        List<QuoteRequest> oneTreeQuotes = QuoteRequestDAO.getOneTreeQuotes();
+	        List<Users> prospectiveClients = userDAO.getProspectiveClients();
+	        //List<Trees> highestTrees = treeDAO.getHighestTrees();
+	        //List<bill> overdueBills = billDAO.getOverdueBills();
+	        List<Users> badClients = userDAO.getBadClients();
+	        List<Users> goodClients = userDAO.getGoodClients();
+	        //List<statistics> statistics = StatisticsDAO.getStatistics();
+
+	        // Add the lists to the request attribute
+	        request.setAttribute("listUsers", userDAO.listAllUsers());
+	        request.setAttribute("bigClients", bigClients);
+	        request.setAttribute("easyClients", easyClients);
+	        request.setAttribute("oneTreeQuotes", oneTreeQuotes);
+	        request.setAttribute("prospectiveClients", prospectiveClients);
+	       // request.setAttribute("highestTrees", highestTrees);
+	       // request.setAttribute("overdueBills", overdueBills);
+	        request.setAttribute("badClients", badClients);
+	        request.setAttribute("goodClients", goodClients);
+	       // request.setAttribute("statistics", statistics);
+
+	        
+	    }
+
+
 	    
 	    protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	        String username = request.getParameter("username");
@@ -136,15 +162,15 @@ public class ControlServlet extends HttpServlet {
 	    private void submitQuoteRequest(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 	        try {
-	            // Convert clientID from String to int
+	            
 	            int clientID = Integer.parseInt(request.getParameter("clientID"));
 
-	            String priceString = request.getParameter("price");
+	            double price = Double.parseDouble(request.getParameter("price"));
 	            String scheduleStart = request.getParameter("scheduleStart");
 	            String scheduleEnd = request.getParameter("scheduleEnd");
 
 	            // Assuming you have a constructor in QuoteRequest that takes int, String, String, String
-	            QuoteRequest quoteRequest = new QuoteRequest(clientID, priceString, scheduleStart, scheduleEnd);
+	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
 
 	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 	            quoteRequestDAO.insert(quoteRequest);
