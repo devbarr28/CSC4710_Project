@@ -5,7 +5,7 @@ public class statistics {
     private double totalPaidAmount;
     private String lastWorkDate;
 
-    // Constructors
+   
     public statistics() {
     }
 
@@ -17,7 +17,7 @@ public class statistics {
         this.lastWorkDate = lastWorkDate;
     }
 
-    // Getters and Setters
+    
     public String getClientName() {
         return clientName;
     }

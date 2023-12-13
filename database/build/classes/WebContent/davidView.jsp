@@ -5,7 +5,70 @@
 <html>
 <head>
     <meta charset="ISO-8859-1">
-    <title>David Smith home page</title>
+    <title>David Smith Home Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <center>
@@ -49,8 +112,9 @@
 
             <br>
             <a href="counterRequest.jsp" target="_self">Make a Counter Request</a><br><br>
+            <a href="billList.jsp" target="_self">View Clients Bills</a><br><br>
             <a href="login.jsp" target="_self">Logout</a><br><br>
-            </div>
+        </div>
     </center>
 </body>
 </html>

@@ -1,10 +1,10 @@
 public class bill {
-    private int id;  // Renamed from billID to match the database
-    private String status;  // Renamed from billStatus to match the database
-    private int orderID;  // Renamed from quoteID to match the database
-    private double price;  // Added to match the database
-    private double discount;  // Added to match the database
-    private double balance;  // Added to match the database
+    private int id;  
+    private String status;  
+    private int orderID;  
+    private double price;  
+    private double discount;  
+    private double balance; 
     private String note;
 
     public bill() {

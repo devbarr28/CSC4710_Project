@@ -1,20 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-    
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Quote Request Confirmation</title>
+    <meta charset="ISO-8859-1">
+    <title>Quote Request Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
 </head>
-
-<center><h1>Congratualations your quote has been submitted!</h1> </center>
-
- 
-	<body>
-	 <center>
-		 <a href="clientView.jsp"target ="_self" > Return to your Home page</a><br><br> 
-		 </center>
-	</body>
+<body>
+    <h1>Congratulations! Your quote has been submitted!</h1>
+    <a href="clientView.jsp" target="_self">Return to your Home page</a>
+</body>
 </html>

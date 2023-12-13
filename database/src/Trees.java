@@ -5,7 +5,7 @@ public class Trees extends QuoteRequest {
     private double height;
     private double distanceFromHouse;
 
-    // Constructors, getters, and setters
+    
 
     public Trees() {
     }
@@ -17,7 +17,7 @@ public class Trees extends QuoteRequest {
         this.distanceFromHouse = distanceFromHouse;
     }
 
-    // Getters and Setters
+
 
     public int getId() {
         return id;

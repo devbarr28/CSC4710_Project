@@ -84,7 +84,7 @@ public class ControlServlet extends HttpServlet {
 
 	     
 	        List<Users> listUsers = userDAO.listAllUsers();
-	        request.setAttribute("listUser", listUsers);       
+	        request.setAttribute("listUsers", listUsers);       
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
 	        dispatcher.forward(request, response);
 	     
@@ -97,7 +97,8 @@ public class ControlServlet extends HttpServlet {
 	        System.out.println("root view");
 	        request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	        System.out.println("request dispatched");
-	        // Assuming you have methods in your DAO for each of these functionalities
+	        
+	        
 	        List<Users> allUsers = userDAO.listAllUsers();
 	        System.out.println("users retrieved");
 	        List<Users> bigClients = userDAO.getBigClients();
@@ -115,8 +116,8 @@ public class ControlServlet extends HttpServlet {
 	        System.out.println("good clients recieved ");
 	       // List<statistics> statistics = StatisticsDAO.getStatistics();
 
-	        // Add the lists to the request attribute
-	        request.setAttribute("listUsers", allUsers);
+	        
+	        request.setAttribute("allUsers", allUsers);
 	      System.out.println("attribute set");
 	        request.setAttribute("bigClients", bigClients);
 	        request.setAttribute("easyClients", easyClients);
@@ -161,14 +162,13 @@ public class ControlServlet extends HttpServlet {
 	            throws ServletException, IOException {
 	        try {
 	            
-	            int clientID = Integer.parseInt(request.getParameter("clientID"));
+	        	int clientID = ((Users)session.getAttribute("loggedInUser")).getID();
 
 	            double price = Double.parseDouble(request.getParameter("price"));
 	            String status = request.getParameter("status");
 	            String scheduleStart = request.getParameter("scheduleStart");
 	            String scheduleEnd = request.getParameter("scheduleEnd");
 
-	            // Assuming you have a constructor in QuoteRequest that takes int, String, String, String
 	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price,status, scheduleStart, scheduleEnd);
 
 	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
@@ -176,9 +176,9 @@ public class ControlServlet extends HttpServlet {
 
 	            response.sendRedirect("quoteRequestConfirmation.jsp");
 	        } catch (Exception e) {
-	            // Handle exceptions
+	           
 	            response.getWriter().println("Error: An unexpected error occurred.");
-	            e.printStackTrace(); // Log the exception for debugging purposes
+	            e.printStackTrace(); 
 	        }
 	    }
 

@@ -14,12 +14,12 @@ public class treeDAO {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-    // Constructor to initialize the connection
+
     public treeDAO(Connection connection) {
         this.connect = connection;
     }
     protected void connect_func() throws SQLException {
-    	//uses default connection to the database
+
         if (connect == null || connect.isClosed()) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,7 +32,7 @@ public class treeDAO {
     }
     
 
-    // Method to insert a new tree record into the database
+   
     public void insertTree(Trees tree) throws SQLException {
         String query = "INSERT INTO Trees (quoteid, size, height, distanceFromHouse) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
@@ -44,7 +44,7 @@ public class treeDAO {
         }
     }
 
-    // Method to retrieve all trees from the database
+    
     public List<Trees> getAllTrees() throws SQLException {
         List<Trees> treesList = new ArrayList<>();
         String query = "SELECT * FROM Trees";
@@ -58,7 +58,7 @@ public class treeDAO {
         return treesList;
     }
 
-    // Utility method to extract tree information from a ResultSet
+   
     private Trees extractTreeFromResultSet(ResultSet resultSet) throws SQLException {
         Trees tree = new Trees();
         tree.setId(resultSet.getInt("id"));
@@ -98,7 +98,7 @@ public class treeDAO {
             preparedStatement = connect.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Populate highestTrees from the result set
+            
             while (resultSet.next()) {
                 Trees tree = new Trees();
                 tree.setId(resultSet.getInt("id"));

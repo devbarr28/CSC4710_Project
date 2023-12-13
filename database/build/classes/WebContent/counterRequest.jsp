@@ -1,11 +1,81 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-    
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="ISO-8859-1">
     <title>Counter Request Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        p {
+            color: #777;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 50%;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <center>

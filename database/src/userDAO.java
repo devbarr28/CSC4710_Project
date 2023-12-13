@@ -38,7 +38,7 @@ public class userDAO
 	 * @see HttpServlet#HttpServlet()
      */
     protected void connect_func() throws SQLException {
-    	//uses default connection to the database
+    	
         if (connect == null || connect.isClosed()) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -64,7 +64,7 @@ public class userDAO
     		return false;
     	}
     }
-	//connect to the database 
+	
     public void connect_func(String username, String password) throws SQLException {
         if (connect == null || connect.isClosed()) {
             try {
@@ -285,7 +285,7 @@ public class userDAO
             preparedStatement = connect.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Populate easyClients from the result set
+            
             while (resultSet.next()) {
                 Users user = new Users();
                 user.setID(resultSet.getInt("id"));
@@ -313,7 +313,7 @@ public class userDAO
             preparedStatement = connect.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Populate prospectiveClients from the result set
+            
             while (resultSet.next()) {
                 Users user = new Users();
                 user.setID(resultSet.getInt("id"));
@@ -337,7 +337,7 @@ public class userDAO
             preparedStatement = connect.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            // Populate goodClients from the result set
+            
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
@@ -367,7 +367,7 @@ public class userDAO
         return goodClients;
     }
 
-    // Get clients who have never paid any bill after it is due
+    
     public List<Users> getBadClients() {
         List<Users> badClients = new ArrayList<>();
         try {
@@ -640,7 +640,7 @@ public class userDAO
 
         	         
         };
-        //for loop to put these in database
+        
         for (int i = 0; i < INITIAL.length; i++) {
         	statement.execute(INITIAL[i]);
         	System.out.println("Create is ok"+ i);

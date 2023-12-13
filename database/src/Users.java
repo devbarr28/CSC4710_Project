@@ -11,7 +11,7 @@ public class Users
 	  	protected String phoneNumber;
 	  	
 	 
-	    //constructors
+	    
 	    public Users() {
 	    }
 	 

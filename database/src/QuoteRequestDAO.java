@@ -79,7 +79,7 @@ public class QuoteRequestDAO {
 	    	}
 	    }
 	protected void connect_func() throws SQLException {
-	    	//uses default connection to the database
+	    	
 	        if (connect == null || connect.isClosed()) {
 	            try {
 	                Class.forName("com.mysql.cj.jdbc.Driver");
@@ -134,7 +134,7 @@ public class QuoteRequestDAO {
             preparedStatement = connect.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Populate oneTreeQuotes from the result set
+            
             while (resultSet.next()) {
                 QuoteRequest quoteRequest = new QuoteRequest();
                 quoteRequest.setQuoteID(resultSet.getInt("QuoteID"));

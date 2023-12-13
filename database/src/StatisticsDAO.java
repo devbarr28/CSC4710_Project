@@ -18,7 +18,7 @@ public class StatisticsDAO {
         this.connection = connection;
     }
     protected void connect_func() throws SQLException {
-    	//uses default connection to the database
+    	
         if (connect == null || connect.isClosed()) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
