@@ -24,7 +24,7 @@
             <tr>
                 <th>User name</th>
                 <th>First Name</th>
-                <th>Last Name
+                <th>Last Name</th>
                 <th>Password</th>
                 <th>Role</th>
                 <th>Credit Card</th>
