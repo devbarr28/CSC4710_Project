@@ -250,7 +250,7 @@ public class userDAO
             connect_func();
             String sql = "SELECT u.id, u.firstname, u.lastname, u.creditCard, u.username, u.phoneNumber, COUNT(t.id) as treeCount " +
                          "FROM Users u " +
-                         "LEFT JOIN Trees t ON u.id = t.userid " +
+                         "LEFT JOIN Trees t ON u.id = t.id " +
                          "GROUP BY u.id " +
                          "ORDER BY treeCount DESC " +
                          "LIMIT 1";
@@ -281,7 +281,7 @@ public class userDAO
             String sql = "SELECT u.* " +
                          "FROM Users u " +
                          "LEFT JOIN QuoteRequests qr ON u.id = qr.clientID " +
-                         "WHERE qr.status = 'Accepted' AND qr.counterOffer IS NULL";
+                         "WHERE qr.status = 'accepted' AND qr.Price IS NULL";
             preparedStatement = connect.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -333,7 +333,7 @@ public class userDAO
         List<Users> goodClients = new ArrayList<>();
         try {
             connect_func();
-            String sql = "SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.clientID = u.id AND b.status = 'Unpaid')";
+            String sql = "SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'Unpaid')";
             preparedStatement = connect.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
@@ -372,7 +372,7 @@ public class userDAO
         List<Users> badClients = new ArrayList<>();
         try {
             connect_func();
-            String sql = "SELECT * FROM Users u WHERE EXISTS (SELECT * FROM Bills b WHERE b.clientID = u.id AND b.status = 'Unpaid')";
+            String sql = "SELECT * FROM Users u WHERE EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'Unpaid')";
             preparedStatement = connect.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
@@ -434,6 +434,7 @@ public class userDAO
                 	"QuoteID INTEGER AUTO_INCREMENT PRIMARY KEY," +
                     "clientID INTEGER," +
                     "price DOUBLE," +
+                    "status VARCHAR(50)," +
                     "scheduleStart VARCHAR(50)," +
                     "scheduleEnd VARCHAR(50)," +
                     "FOREIGN KEY (clientID) REFERENCES Users(id))",
@@ -447,7 +448,6 @@ public class userDAO
                     "FOREIGN KEY(quoteID) REFERENCES QuoteRequests(QuoteID))",
 
                 "CREATE TABLE if not exists CounterRequest(" +
-                	"id INTEGER," +
                     "userid INTEGER," +
                     "quoteID INTEGER," +
                     "price DOUBLE," +
@@ -509,26 +509,26 @@ public class userDAO
         	    "INSERT INTO Users(username, role, password, creditCard, address, phoneNumber, firstname, lastname) VALUES " +
         	        "('james@gmail.com', 'Client', 'james123', '1111-2222-3333-4444', '123 windridge St', '313-666-2134','James','Brown')",
 
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'susie@gmail.com'), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'joe@gmail.com'), 120.00, '2023-01-03 13:00:00', '2023-01-03 15:00:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'wallace@gmail.com'), 80.00, '2023-01-04 09:30:00', '2023-01-04 11:30:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'amelia@gmail.com'), 200.00, '2023-01-05 14:00:00', '2023-01-05 16:00:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'sophie@gmail.com'), 90.00, '2023-01-06 12:30:00', '2023-01-06 14:30:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'angelo@gmail.com'), 110.00, '2023-01-07 11:45:00', '2023-01-07 13:45:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'rudy@gmail.com'), 130.00, '2023-01-08 10:15:00', '2023-01-08 12:15:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'jeannette@gmail.com'), 160.00, '2023-01-09 15:30:00', '2023-01-09 17:30:00')",
-        	    "INSERT INTO QuoteRequests(clientID, price, scheduleStart, scheduleEnd) VALUES " +
-        	        "((SELECT id FROM Users WHERE username = 'james@gmail.com'), 180.00, '2023-01-10 08:45:00', '2023-01-10 10:45:00')",
+        	    "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'don@gmail.com'), 100.00,'accepted', '2023-01-01 10:00:00', '2023-01-01 12:00:00')",
+        	    "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'susie@gmail.com'), 150.00,'accepted', '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'joe@gmail.com'), 120.00,'accepted', '2023-01-03 13:00:00', '2023-01-03 15:00:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'wallace@gmail.com'), 80.00,'rejected', '2023-01-04 09:30:00', '2023-01-04 11:30:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'amelia@gmail.com'), 200.00,'rejected', '2023-01-05 14:00:00', '2023-01-05 16:00:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'sophie@gmail.com'), 90.00,'accepted', '2023-01-06 12:30:00', '2023-01-06 14:30:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'angelo@gmail.com'), 110.00,'rejected', '2023-01-07 11:45:00', '2023-01-07 13:45:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'rudy@gmail.com'), 130.00,'pending', '2023-01-08 10:15:00', '2023-01-08 12:15:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'jeannette@gmail.com'), 160.00,'pending', '2023-01-09 15:30:00', '2023-01-09 17:30:00')",
+        	        "INSERT INTO QuoteRequests(clientID, price, status, scheduleStart, scheduleEnd) VALUES " +
+        	        "((SELECT id FROM Users WHERE username = 'james@gmail.com'), 180.00,'accepted', '2023-01-10 08:45:00', '2023-01-10 10:45:00')",
 
         	    "INSERT INTO Trees(quoteID, size, height, distanceFromHouse) VALUES " +
         	        "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'don@gmail.com')), 10.5, 15.0, 5.0)",
@@ -575,42 +575,70 @@ public class userDAO
         	       
         	        "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'don@gmail.com')), 100.00, '2023-01-01 10:00:00', '2023-01-01 12:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'susie@gmail.com')), 150.00, '2023-01-02 11:00:00', '2023-01-02 14:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'joe@gmail.com')), 200.00, '2023-01-03 12:00:00', '2023-01-03 15:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'wallace@gmail.com')), 250.00, '2023-01-04 13:00:00', '2023-01-04 16:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'amelia@gmail.com')), 300.00, '2023-01-05 14:00:00', '2023-01-05 17:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'sophie@gmail.com')), 350.00, '2023-01-06 15:00:00', '2023-01-06 18:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'angelo@gmail.com')), 400.00, '2023-01-07 16:00:00', '2023-01-07 19:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'rudy@gmail.com')), 450.00, '2023-01-08 17:00:00', '2023-01-08 20:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'jeannette@gmail.com')), 500.00, '2023-01-09 18:00:00', '2023-01-09 21:00:00')",
+        	          "INSERT INTO Orders (quoteID, price, schedulestart, scheduleend) VALUES " +
         	          "((SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'james@gmail.com')), 550.00, '2023-01-10 19:00:00', '2023-01-10 22:00:00')",
 
         	     
         	        "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'don@gmail.com'))), 100.00, 0.0, 100.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'susie@gmail.com'))), 150.00, 0.0, 150.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'joe@gmail.com'))), 200.00, 0.0, 200.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'wallace@gmail.com'))), 250.00, 0.0, 250.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'amelia@gmail.com'))), 300.00, 0.0, 300.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'sophie@gmail.com'))), 350.00, 0.0, 350.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'angelo@gmail.com'))), 400.00, 0.0, 400.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'rudy@gmail.com'))), 450.00, 0.0, 450.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'jeannette@gmail.com'))), 500.00, 0.0, 500.00, 'pending')",
+        	          "INSERT INTO Bills (orderid, price, discount, balance, status) VALUES " +
         	          "((SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'james@gmail.com'))), 550.00, 0.0, 550.00, 'pending')",
 
         	       
         	        "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
         	         " ((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'don@gmail.com')))), '2023-01-01 12:30:00', 100.00, '2023-01-01 13:30:00', '2023-01-01 14:30:00', 'Note 1')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'susie@gmail.com')))), '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'joe@gmail.com')))), '2023-01-03 14:30:00', 200.00, '2023-01-03 15:30:00', '2023-01-03 16:30:00', 'Note 3')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'wallace@gmail.com')))), '2023-01-04 15:45:00', 250.00, '2023-01-04 16:45:00', '2023-01-04 17:45:00', 'Note 4')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'susie@gmail.com')))), '2023-01-02 13:45:00', 150.00, '2023-01-02 14:45:00', '2023-01-02 15:45:00', 'Note 2')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'joe@gmail.com')))), '2023-01-03 14:30:00', 200.00, '2023-01-03 15:30:00', '2023-01-03 16:30:00', 'Note 3')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'wallace@gmail.com')))), '2023-01-04 15:45:00', 250.00, '2023-01-04 16:45:00', '2023-01-04 17:45:00', 'Note 4')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
         	         " ((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'amelia@gmail.com')))), '2023-01-05 16:30:00', 300.00, '2023-01-05 17:30:00', '2023-01-05 18:30:00', 'Note 5')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
         	         " ((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'sophie@gmail.com')))), '2023-01-06 17:45:00', 350.00, '2023-01-06 18:45:00', '2023-01-06 19:45:00', 'Note 6')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'angelo@gmail.com')))), '2023-01-07 18:30:00', 400.00, '2023-01-07 19:30:00', '2023-01-07 20:30:00', 'Note 7')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'rudy@gmail.com')))), '2023-01-08 19:45:00', 450.00, '2023-01-08 20:45:00', '2023-01-08 21:45:00', 'Note 8')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'jeannette@gmail.com')))), '2023-01-09 20:30:00', 500.00, '2023-01-09 21:30:00', '2023-01-09 22:30:00', 'Note 9')",
-        	          "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'james@gmail.com')))), '2023-01-10 21:15:00', 550.00, '2023-01-10 22:15:00', '2023-01-10 23:15:00', 'Note 10');"
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'angelo@gmail.com')))), '2023-01-07 18:30:00', 400.00, '2023-01-07 19:30:00', '2023-01-07 20:30:00', 'Note 7')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'rudy@gmail.com')))), '2023-01-08 19:45:00', 450.00, '2023-01-08 20:45:00', '2023-01-08 21:45:00', 'Note 8')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'jeannette@gmail.com')))), '2023-01-09 20:30:00', 500.00, '2023-01-09 21:30:00', '2023-01-09 22:30:00', 'Note 9')",
+        	         "INSERT INTO BillsMessages (billid, msgtime, price, schedulestart, scheduleend, note) VALUES "+
+        	         "((SELECT id FROM Bills WHERE orderid = (SELECT id FROM Orders WHERE quoteID = (SELECT QuoteID FROM QuoteRequests WHERE clientID = (SELECT id FROM Users WHERE username = 'james@gmail.com')))), '2023-01-10 21:15:00', 550.00, '2023-01-10 22:15:00', '2023-01-10 23:15:00', 'Note 10');"
 
+        	         
         };
         //for loop to put these in database
         for (int i = 0; i < INITIAL.length; i++) {

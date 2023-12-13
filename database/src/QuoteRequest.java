@@ -5,6 +5,7 @@ public class QuoteRequest extends Users {
     private int clientID;
     private int quoteID;
     private Double price;
+    private String status;
     private String scheduleStart;
     private String scheduleEnd;
 
@@ -16,9 +17,10 @@ public class QuoteRequest extends Users {
     	
     }
     
-    public QuoteRequest(int clientID, Double price, String scheduleStart, String scheduleEnd) {
+    public QuoteRequest(int clientID, Double price,String status, String scheduleStart, String scheduleEnd) {
         this.clientID = clientID;
         this.price = price;
+        this.status = status;
         this.scheduleStart = scheduleStart;
         this.scheduleEnd = scheduleEnd;
     }
@@ -48,7 +50,12 @@ public class QuoteRequest extends Users {
     public void setPrice(Double price) {
         this.price = price;
     }
-
+    public String getStatus() {
+    	return status;
+    }
+    public void setStatus(String status) {
+    	this.status = status;
+    }
     public String getScheduleStart() {
         return scheduleStart;
     }

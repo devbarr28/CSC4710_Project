@@ -53,10 +53,11 @@ public class QuoteRequestDAO {
 	        while (resultSet.next()) {
 	            int clientID = resultSet.getInt("clientID");
 	            Double price = resultSet.getDouble("price");
+	            String status = resultSet.getString("status");
 	            String scheduleStart = resultSet.getString("schedueStart");
 	            String scheduleEnd = resultSet.getString("scheduleEnd");
 	            
-	            QuoteRequest quotes = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
+	            QuoteRequest quotes = new QuoteRequest(clientID, price,status, scheduleStart, scheduleEnd);
 	            listQuote.add(quotes);
 	        }        
 	        resultSet.close();
@@ -139,6 +140,7 @@ public class QuoteRequestDAO {
                 quoteRequest.setQuoteID(resultSet.getInt("QuoteID"));
                 quoteRequest.setClientID(resultSet.getInt("clientID"));
                 quoteRequest.setPrice(resultSet.getDouble("price"));
+                quoteRequest.setStatus(resultSet.getString("status"));
                 quoteRequest.setScheduleStart(resultSet.getString("scheduleStart"));
                 quoteRequest.setScheduleEnd(resultSet.getString("scheduleEnd"));
                 oneTreeQuotes.add(quoteRequest);

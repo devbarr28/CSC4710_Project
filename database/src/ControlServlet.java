@@ -33,6 +33,7 @@ public class ControlServlet extends HttpServlet {
 	    
 	    public void init()
 	    {
+	    	userDAO = new userDAO();
 	    	currentUser= "";
 	    }
 	    
@@ -89,37 +90,34 @@ public class ControlServlet extends HttpServlet {
 	     
 	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
 	    }
-	    private void listQuotes(HttpServletRequest request, HttpServletResponse response)
-	            throws SQLException, IOException, ServletException {
-	        System.out.println("list quotes started: 00000000000000000000000000000000000");
-
-	     
-	        List<QuoteRequest> listQuotes = QuoteRequestDAO.listAllQuotes();
-	        request.setAttribute("listQuote", listQuotes);       
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
-	        dispatcher.forward(request, response);
-	     
-	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
-	    }
 	    	        
 	    
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view)
 	            throws ServletException, IOException, SQLException {
 	        System.out.println("root view");
 	        request.getRequestDispatcher("rootView.jsp").forward(request, response);
+	        System.out.println("request dispatched");
 	        // Assuming you have methods in your DAO for each of these functionalities
+	        List<Users> allUsers = userDAO.listAllUsers();
+	        System.out.println("users retrieved");
 	        List<Users> bigClients = userDAO.getBigClients();
+	        System.out.println("big clients recieved");
 	        List<Users> easyClients = userDAO.getEasyClients();
+	        System.out.println("easy clients retrieved");
 	        List<QuoteRequest> oneTreeQuotes = QuoteRequestDAO.getOneTreeQuotes();
+	        System.out.println("one tree quotes recieved");
 	        List<Users> prospectiveClients = userDAO.getProspectiveClients();
 	        //List<Trees> highestTrees = treeDAO.getHighestTrees();
 	        //List<bill> overdueBills = billDAO.getOverdueBills();
 	        List<Users> badClients = userDAO.getBadClients();
+	        System.out.println("bad clients received");
 	        List<Users> goodClients = userDAO.getGoodClients();
-	        //List<statistics> statistics = StatisticsDAO.getStatistics();
+	        System.out.println("good clients recieved ");
+	       // List<statistics> statistics = StatisticsDAO.getStatistics();
 
 	        // Add the lists to the request attribute
-	        request.setAttribute("listUsers", userDAO.listAllUsers());
+	        request.setAttribute("listUsers", allUsers);
+	      System.out.println("attribute set");
 	        request.setAttribute("bigClients", bigClients);
 	        request.setAttribute("easyClients", easyClients);
 	        request.setAttribute("oneTreeQuotes", oneTreeQuotes);
@@ -128,7 +126,7 @@ public class ControlServlet extends HttpServlet {
 	       // request.setAttribute("overdueBills", overdueBills);
 	        request.setAttribute("badClients", badClients);
 	        request.setAttribute("goodClients", goodClients);
-	       // request.setAttribute("statistics", statistics);
+	        //request.setAttribute("statistics", statistics);
 
 	        
 	    }
@@ -166,11 +164,12 @@ public class ControlServlet extends HttpServlet {
 	            int clientID = Integer.parseInt(request.getParameter("clientID"));
 
 	            double price = Double.parseDouble(request.getParameter("price"));
+	            String status = request.getParameter("status");
 	            String scheduleStart = request.getParameter("scheduleStart");
 	            String scheduleEnd = request.getParameter("scheduleEnd");
 
 	            // Assuming you have a constructor in QuoteRequest that takes int, String, String, String
-	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price, scheduleStart, scheduleEnd);
+	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price,status, scheduleStart, scheduleEnd);
 
 	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 	            quoteRequestDAO.insert(quoteRequest);
