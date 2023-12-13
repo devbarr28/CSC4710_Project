@@ -4,9 +4,9 @@ USE testdb;
 DROP TABLE IF EXISTS BillsMessages;
 DROP TABLE IF EXISTS Bills;
 DROP TABLE IF EXISTS Orders;
-DROP TABLE IF EXISTS CounterRequest; -- Changed to proper case
+DROP TABLE IF EXISTS CounterRequest; 
 DROP TABLE IF EXISTS Trees;
-DROP TABLE IF EXISTS QuoteRequests; -- Changed to proper case
+DROP TABLE IF EXISTS QuoteRequests; 
 DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
@@ -68,15 +68,3 @@ CREATE TABLE Bills (
     FOREIGN KEY (orderid) REFERENCES Orders (id)
 );
 
-CREATE TABLE BillsMessages (
-    id INTEGER PRIMARY KEY,
-    userid INTEGER,
-    billid INTEGER,
-    msgtime DATETIME,
-    price DOUBLE,
-    schedulestart DATETIME,
-    scheduleend DATETIME,
-    note VARCHAR(200),
-    FOREIGN KEY (userid) REFERENCES Users (id),
-    FOREIGN KEY (billid) REFERENCES Bills (id)
-);
