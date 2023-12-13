@@ -123,7 +123,7 @@
     </c:forEach>
 </table>
 
-<!-- Prospective Clients Table -->
+
 <h1>Prospective Clients</h1>
 <table border="1" cellpadding="6">
     <tr>
@@ -138,7 +138,7 @@
     </c:forEach>
 </table>
 
-<!-- Highest Trees Table -->
+
 <h1>Highest Trees</h1>
 <table border="1" cellpadding="6">
     <tr>
@@ -153,7 +153,7 @@
     </c:forEach>
 </table>
 
-<!-- Overdue Bills Table -->
+
 <h1>Overdue Bills</h1>
 <table border="1" cellpadding="6">
     <tr>
@@ -168,7 +168,7 @@
     </c:forEach>
 </table>
 
-<!-- Bad Clients Table -->
+
 <h1>Bad Clients</h1>
 <table border="1" cellpadding="6">
     <tr>
@@ -183,7 +183,7 @@
     </c:forEach>
 </table>
 
-<!-- Good Clients Table -->
+
 <h1>Good Clients</h1>
 <table border="1" cellpadding="6">
     <tr>
@@ -198,7 +198,7 @@
     </c:forEach>
 </table>
 
-<!-- Statistics Table -->
+
 <h1>Statistics</h1>
 <table border="1" cellpadding="6">
     <tr>
