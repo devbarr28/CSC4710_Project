@@ -54,7 +54,7 @@ Download the Eclipse IDE for Java and Web developers from the official site.
 ## Contributions
   Part 1: 8-9 Hours
   Part 2: 12-15 Hours
-  
+  Part 3: 20-30 hours
   Devin:
   
     - Created ER Diagram
