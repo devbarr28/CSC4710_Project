@@ -71,6 +71,10 @@ public class ControlServlet extends HttpServlet {
         	 case "/submitRequest":
         		 System.out.println("Request Submitted");
         		 submitQuoteRequest(request,response);
+        		 break;
+        	 case "/submitCounterRequest":
+        		 System.out.println("Counter Request Submitted") ;
+        		 submitCounterRequest(request,response);
         	}
 	    }
 	    catch(Exception ex) {
@@ -108,13 +112,13 @@ public class ControlServlet extends HttpServlet {
 	        List<QuoteRequest> oneTreeQuotes = QuoteRequestDAO.getOneTreeQuotes();
 	        System.out.println("one tree quotes recieved");
 	        List<Users> prospectiveClients = userDAO.getProspectiveClients();
-	        //List<Trees> highestTrees = treeDAO.getHighestTrees();
-	        //List<bill> overdueBills = billDAO.getOverdueBills();
+	        List<Trees> highestTrees = treeDAO.getHighestTrees();
+	        List<bill> overdueBills = billDAO.getOverdueBills();
 	        List<Users> badClients = userDAO.getBadClients();
 	        System.out.println("bad clients received");
 	        List<Users> goodClients = userDAO.getGoodClients();
 	        System.out.println("good clients recieved ");
-	       // List<statistics> statistics = StatisticsDAO.getStatistics();
+	        List<statistics> statistics = StatisticsDAO.getStatistics();
 
 	        
 	        request.setAttribute("allUsers", allUsers);
@@ -123,11 +127,11 @@ public class ControlServlet extends HttpServlet {
 	        request.setAttribute("easyClients", easyClients);
 	        request.setAttribute("oneTreeQuotes", oneTreeQuotes);
 	        request.setAttribute("prospectiveClients", prospectiveClients);
-	       // request.setAttribute("highestTrees", highestTrees);
-	       // request.setAttribute("overdueBills", overdueBills);
+	        request.setAttribute("highestTrees", highestTrees);
+	        request.setAttribute("overdueBills", overdueBills);
 	        request.setAttribute("badClients", badClients);
 	        request.setAttribute("goodClients", goodClients);
-	        //request.setAttribute("statistics", statistics);
+	        request.setAttribute("statistics", statistics);
 
 	        
 	    }
@@ -162,25 +166,53 @@ public class ControlServlet extends HttpServlet {
 	            throws ServletException, IOException {
 	        try {
 	            
-	        	int clientID = ((Users)session.getAttribute("loggedInUser")).getID();
-
-	            double price = Double.parseDouble(request.getParameter("price"));
+	            int clientID = Integer.parseInt(request.getParameter("clientID"));
+	            Double price = Double.parseDouble(request.getParameter("price"));
 	            String status = request.getParameter("status");
 	            String scheduleStart = request.getParameter("scheduleStart");
 	            String scheduleEnd = request.getParameter("scheduleEnd");
 
-	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price,status, scheduleStart, scheduleEnd);
+	            QuoteRequest quoteRequest = new QuoteRequest(clientID, price, status, scheduleStart, scheduleEnd);
 
 	            QuoteRequestDAO quoteRequestDAO = new QuoteRequestDAO();
 	            quoteRequestDAO.insert(quoteRequest);
 
 	            response.sendRedirect("quoteRequestConfirmation.jsp");
 	        } catch (Exception e) {
-	           
 	            response.getWriter().println("Error: An unexpected error occurred.");
-	            e.printStackTrace(); 
+	            e.printStackTrace();
 	        }
 	    }
+
+
+	    private void submitCounterRequest(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        try {
+	            String quoteId = request.getParameter("quoteId");
+	            String counterNotes = request.getParameter("counterNotes");
+	            String counterPrice = request.getParameter("counterPrice");
+
+	           
+	            if (quoteId == null || counterNotes == null || counterPrice == null) {
+	                response.getWriter().println("Error: Required parameters are missing.");
+	                return;
+	            }
+
+	            int quoteID = Integer.parseInt(quoteId);
+	            double CounterPrice = Double.parseDouble(counterPrice);
+
+	            CounterRequest counter = new CounterRequest(quoteID, counterNotes, CounterPrice);
+	            CounterRequestDAO counterRequestDAO = new CounterRequestDAO();
+	            counterRequestDAO.insertCounterRequest(counter);
+
+	            response.sendRedirect("counterRequestConfirmation.jsp");
+	        } catch (Exception e) {
+	            response.getWriter().println("Error: An unexpected error occurred.");
+	            e.printStackTrace();
+	        }
+	    }
+
+
 
 	    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String username = request.getParameter("username");

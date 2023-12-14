@@ -42,7 +42,7 @@
 
     <center>
         <a href="quoteRequest.jsp" target="_self">Request a Quote</a><br><br>
-        <a href="bill.jsp" target="_self">View Your Bill</a><br><br>
+        <a href="Bill.jsp" target="_self">View Your Bill</a><br><br>
         <a href="login.jsp" target="_self">Logout</a><br><br>
     </center>
 

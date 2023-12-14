@@ -11,7 +11,9 @@ public class CounterRequestDAO {
     public CounterRequestDAO(Connection connection) {
         this.connection = connection;
     }
-
+    public CounterRequestDAO() {
+    	
+    }
     public void insertCounterRequest(CounterRequest counterRequest) throws SQLException {
         String query = "INSERT INTO CounterRequest (quoteId, counterNotes, counterPrice) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

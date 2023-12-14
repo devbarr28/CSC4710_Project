@@ -1,0 +1,64 @@
+We created functions in our DAO's with the SQL queries in them.
+
+For Big Clients
+
+			 "SELECT u.id, u.firstname, u.lastname, u.creditCard, u.username, u.phoneNumber, COUNT(t.id) as treeCount " +
+                         "FROM Users u " +
+                         "LEFT JOIN Trees t ON u.id = t.id " +
+                         "GROUP BY u.id " +
+                         "ORDER BY treeCount DESC " +
+                         "LIMIT 1";
+
+For Easy Clients 
+			"SELECT u.* " +
+                         "FROM Users u " +
+                         "LEFT JOIN QuoteRequests qr ON u.id = qr.clientID " +
+                         "WHERE qr.status = 'accepted' AND qr.Price IS NULL";
+
+
+
+For One Tree Quotes
+
+			 "SELECT qr.* " +
+                         "FROM QuoteRequests qr " +
+                         "LEFT JOIN Trees t ON qr.QuoteID = t.quoteid " +
+                         "WHERE t.id IS NULL OR t.size = 1";
+
+
+For Perspective Clients
+
+			 "SELECT u.* " +
+                         "FROM Users u " +
+                         "LEFT JOIN QuoteRequests qr ON u.id = qr.clientID " +
+                         "LEFT JOIN Orders o ON qr.QuoteID = o.quoteID " +
+                         "WHERE o.id IS NULL AND qr.status = 'Accepted'";
+
+
+For Highest tree
+
+"SELECT * FROM Trees WHERE height = (SELECT MAX(height) FROM Trees)";
+
+
+For Overdue Bill
+
+"SELECT * FROM Bills WHERE DATEDIFF(NOW(), scheduleend) > 7 AND status = 'Unpaid'";
+
+
+For Bad clients
+
+"SELECT * FROM Users u WHERE EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'Unpaid')";
+
+For Good Clients
+ 
+"SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'paid')";
+
+For Statistics
+
+		     "SELECT clientName, COUNT(qr.treeId) AS totalTrees, " +
+                     "SUM(qr.price) AS totalDueAmount, " +
+                     "SUM(CASE WHEN b.status = 'paid' THEN b.balance ELSE 0 END) AS totalPaidAmount, " +
+                     "MAX(qr.scheduleEnd) AS lastWorkDate " +
+                     "FROM QuoteRequests qr " +
+                     "LEFT JOIN Bills b ON qr.quoteId = b.quoteId " +
+                     "GROUP BY clientName";
+

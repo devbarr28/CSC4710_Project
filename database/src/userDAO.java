@@ -333,7 +333,7 @@ public class userDAO
         List<Users> goodClients = new ArrayList<>();
         try {
             connect_func();
-            String sql = "SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'Unpaid')";
+            String sql = "SELECT * FROM Users u WHERE NOT EXISTS (SELECT * FROM Bills b WHERE b.id = u.id AND b.status = 'paid')";
             preparedStatement = connect.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
